@@ -1,0 +1,89 @@
+﻿@page "/login"
+@rendermode InteractiveServer
+@using centroDeportivo.Aplicacion.CasosDeUso
+@using centroDeportivo.UI.Servicios
+@inject LoginUseCase LoginUC
+@inject SesionService Sesion
+@inject NavigationManager Nav
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <div class="card shadow">
+                <div class="card-header bg-dark text-white text-center">
+                    <h4>Ingreso al Sistema</h4>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label>Email</label>
+                        <input type="email" class="form-control" @bind="email" @bind:event="oninput" />
+                    </div>
+                    <div class="mb-3">
+                        <label>Contraseña</label>
+                        <input type="password" class="form-control" @bind="password" @bind:event="oninput" />
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(mensajeError))
+                    {
+                        <div class="alert alert-danger py-2 animate__animated animate__shakeX">
+                            <i class="bi bi-exclamation-circle"></i> @mensajeError
+                        </div>
+                    }
+
+                    <button class="btn btn-primary w-100" @onclick="IntentarLogin" disabled="@cargando">
+                        @if (cargando)
+                        {
+                            <span class="spinner-border spinner-border-sm"></span> <span>Verificando...</span>
+                        }
+                        else
+                        {
+                            <span>Entrar</span>
+                        }
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string email = "";
+    private string password = "";
+    private string? mensajeError;
+    private bool cargando = false;
+
+    private async Task IntentarLogin()
+    {
+        if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
+        {
+            mensajeError = "Por favor, completa todos los campos.";
+            return;
+        }
+
+        try
+        {
+            cargando = true;
+            mensajeError = null;
+            StateHasChanged();
+
+            // Pequeño delay para que se vea el spinner (opcional)
+            await Task.Delay(500);
+
+            var usuario = LoginUC.Ejecutar(email, password);
+            
+            // Si llegamos acá es porque no hubo excepción
+            Sesion.IniciarSesion(usuario);
+            await Task.Delay(100);
+            Nav.NavigateTo("/dashboard");
+        }
+        catch (Exception ex)
+        {
+            // Aquí capturamos el "Mail no registrado" o "Pass incorrecta"
+            mensajeError = ex.Message;
+        }
+        finally
+        {
+            cargando = false;
+        }
+    }
+}

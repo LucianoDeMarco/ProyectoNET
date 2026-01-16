@@ -1,0 +1,110 @@
+@page "/usuarios/gestionar"
+@rendermode InteractiveServer
+@using centroDeportivo.Aplicacion
+@using centroDeportivo.Aplicacion.CasosDeUso
+@using centroDeportivo.UI.Servicios
+@using centroDeportivo.Aplicacion.Seguridad
+@inject ListarUsuariosUseCase ListarUsuariosUC
+@inject ModificarUsuarioUseCase ModificarUsuarioUC
+@inject SesionService Sesion
+@inject NavigationManager Nav
+
+<PageTitle>Gestión de Usuarios - Centro Deportivo</PageTitle>
+
+<div class="container mt-4">
+    <h3><i class="bi bi-people-fill"></i> Administración de Usuarios</h3>
+    <p class="text-muted">Desde aquí puedes restablecer contraseñas tras contacto directo con el usuario.</p>
+
+    @if (usuarios == null)
+    {
+        <div class="spinner-border text-primary"></div>
+    }
+    else
+    {
+        <table class="table table-striped shadow-sm">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nombre Completo</th>
+                    <th>Email</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in usuarios)
+                {
+                    <tr>
+                        <td>@user.Nombre @user.Apellido</td>
+                        <td>@user.Mail</td>
+                        <td>
+                            @* El Admin no se resetea a sí mismo aquí para evitar errores *@
+                            @if (user.Id != Sesion.UsuarioActual?.Id)
+                            {
+                                <button class="btn btn-warning btn-sm" @onclick="() => AbrirModalReset(user)">
+                                    <i class="bi bi-shield-lock"></i> Resetear Clave
+                                </button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+@* --- "Modal" sencillo para el cambio de clave --- *@
+@if (usuarioAEditar != null)
+{
+    <div class="modal-backdrop fade show"></div>
+    <div class="modal fade show d-block" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-warning text-dark">
+                    <h5 class="modal-title">Nueva clave para @usuarioAEditar.Nombre</h5>
+                </div>
+                <div class="modal-body">
+                    <label>Escribe la nueva contraseña temporal:</label>
+                    <input type="password" class="form-control" @bind="nuevaPass" placeholder="Mínimo 6 caracteres" />
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" @onclick="() => usuarioAEditar = null">Cancelar</button>
+                    <button class="btn btn-primary" @onclick="ProcesarReset">Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private List<Usuario>? usuarios;
+    private Usuario? usuarioAEditar;
+    private string nuevaPass = "";
+
+    protected override void OnInitialized()
+    {
+        // Seguridad: Solo Admins entran
+        if (!Sesion.EstaLogueado || !Sesion.UsuarioActual!.ListaPermisos.Contains(Permiso.UsuarioModificacion))
+        {
+            Nav.NavigateTo("/dashboard");
+            return;
+        }
+        usuarios = ListarUsuariosUC.Ejecutar();
+    }
+
+    private void AbrirModalReset(Usuario u)
+    {
+        usuarioAEditar = u;
+        nuevaPass = "";
+    }
+
+    private void ProcesarReset()
+    {
+        if (usuarioAEditar != null && !string.IsNullOrWhiteSpace(nuevaPass))
+        {
+            usuarioAEditar.Password = nuevaPass;
+            // Usamos tu Caso de Uso que ya valida permisos y guarda en la DB
+            ModificarUsuarioUC.Ejecutar(Sesion.UsuarioActual!, usuarioAEditar);
+            usuarioAEditar = null;
+            StateHasChanged();
+        }
+    }
+}

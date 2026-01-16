@@ -1,0 +1,11 @@
+C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.Aplicacion\bin\Debug\net8.0\centroDeportivo.Aplicacion.deps.json
+C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.Aplicacion\bin\Debug\net8.0\centroDeportivo.Aplicacion.dll
+C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.Aplicacion\bin\Debug\net8.0\centroDeportivo.Aplicacion.pdb
+C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.Aplicacion\obj\Debug\net8.0\centroDeportivo.Aplicacion.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.Aplicacion\obj\Debug\net8.0\centroDeportivo.Aplicacion.AssemblyInfoInputs.cache
+C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.Aplicacion\obj\Debug\net8.0\centroDeportivo.Aplicacion.AssemblyInfo.cs
+C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.Aplicacion\obj\Debug\net8.0\centroDeportivo.Aplicacion.csproj.CoreCompileInputs.cache
+C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.Aplicacion\obj\Debug\net8.0\centroDeportivo.Aplicacion.dll
+C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.Aplicacion\obj\Debug\net8.0\refint\centroDeportivo.Aplicacion.dll
+C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.Aplicacion\obj\Debug\net8.0\centroDeportivo.Aplicacion.pdb
+C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.Aplicacion\obj\Debug\net8.0\ref\centroDeportivo.Aplicacion.dll

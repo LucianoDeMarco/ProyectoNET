@@ -1,0 +1,56 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "centroDeportivo.Consola/1.0.0": {
+        "dependencies": {
+          "centroDeportivo.Aplicacion": "1.0.0",
+          "centroDeportivo.Repositorios": "1.0.0"
+        },
+        "runtime": {
+          "centroDeportivo.Consola.dll": {}
+        }
+      },
+      "centroDeportivo.Aplicacion/1.0.0": {
+        "runtime": {
+          "centroDeportivo.Aplicacion.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "centroDeportivo.Repositorios/1.0.0": {
+        "dependencies": {
+          "centroDeportivo.Aplicacion": "1.0.0"
+        },
+        "runtime": {
+          "centroDeportivo.Repositorios.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "centroDeportivo.Consola/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "centroDeportivo.Aplicacion/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "centroDeportivo.Repositorios/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

@@ -1,0 +1,58 @@
+﻿@inherits LayoutComponentBase
+@using centroDeportivo.UI.Servicios
+@inject SesionService Sesion
+@inject NavigationManager Nav
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4 d-flex justify-content-end align-items-center">
+    @if (Sesion.EstaLogueado)
+    {
+        <div class="user-info">
+            <span class="me-3">Bienvenido, <strong>@Sesion.UsuarioActual?.Nombre</strong></span>
+            
+            @* Acceso rápido al perfil *@
+            <a href="perfil" class="btn btn-sm btn-outline-secondary me-2">
+                <i class="bi bi-person-circle"></i> Mi Perfil
+            </a>
+
+            <button class="btn btn-danger btn-sm" @onclick="CerrarSesion">Salir</button>
+        </div>
+    }
+</div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+<div id="blazor-error-ui">
+    An unhandled error has occurred.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+</div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        // Suscribirse al evento para que el Layout se actualice cuando alguien se loguee
+        Sesion.OnChange += StateHasChanged;
+    }
+
+    private void CerrarSesion()
+    {
+        Sesion.CerrarSesion();
+        Nav.NavigateTo("/", forceLoad: true);
+    }
+
+    // Es buena práctica desuscribirse cuando el componente se destruye
+    public void Dispose()
+    {
+        Sesion.OnChange -= StateHasChanged;
+    }
+}

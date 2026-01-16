@@ -1,0 +1,1 @@
+[{"Id":1,"NroCarnet":123,"Nombre":"Ana","Apellido":"G\u00F3mez","Direccion":"","Facultad":"","Telefono":"","Mail":"ana@gmail.com"}]

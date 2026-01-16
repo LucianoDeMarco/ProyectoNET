@@ -1,0 +1,17 @@
+C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.Repositorios\bin\Debug\net8.0\centroDeportivo.Repositorios.deps.json
+C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.Repositorios\bin\Debug\net8.0\centroDeportivo.Repositorios.dll
+C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.Repositorios\bin\Debug\net8.0\centroDeportivo.Repositorios.pdb
+C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.Repositorios\bin\Debug\net8.0\centroDeportivo.Aplicacion.dll
+C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.Repositorios\bin\Debug\net8.0\centroDeportivo.Aplicacion.pdb
+C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.Repositorios\obj\Debug\net8.0\centroDeportivo.Repositorios.csproj.AssemblyReference.cache
+C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.Repositorios\obj\Debug\net8.0\centroDeportivo.Repositorios.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.Repositorios\obj\Debug\net8.0\centroDeportivo.Repositorios.AssemblyInfoInputs.cache
+C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.Repositorios\obj\Debug\net8.0\centroDeportivo.Repositorios.AssemblyInfo.cs
+C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.Repositorios\obj\Debug\net8.0\centroDeportivo.Repositorios.csproj.CoreCompileInputs.cache
+C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.Repositorios\obj\Debug\net8.0\centroDe.0AAB13BB.Up2Date
+C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.Repositorios\obj\Debug\net8.0\centroDeportivo.Repositorios.dll
+C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.Repositorios\obj\Debug\net8.0\refint\centroDeportivo.Repositorios.dll
+C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.Repositorios\obj\Debug\net8.0\centroDeportivo.Repositorios.pdb
+C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.Repositorios\obj\Debug\net8.0\ref\centroDeportivo.Repositorios.dll
+C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.Repositorios\bin\Debug\net8.0\centroDeportivo.Repositorios.runtimeconfig.json
+C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.Repositorios\obj\Debug\net8.0\centroDeportivo.Repositorios.genruntimeconfig.cache

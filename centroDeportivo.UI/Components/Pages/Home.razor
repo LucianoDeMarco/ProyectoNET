@@ -1,0 +1,63 @@
+﻿@page "/"
+@rendermode InteractiveServer
+@using centroDeportivo.Aplicacion.CasosDeUso
+@using centroDeportivo.UI.Servicios
+@inject SesionService Sesion
+@inject NavigationManager Nav
+@inject ListarUsuariosUseCase ListarUsuariosUC
+
+<PageTitle>Bienvenido - Centro Deportivo</PageTitle>
+
+<div class="text-center mt-5">
+    <h1>Bienvenido al Sistema de Gestión</h1>
+    <p class="lead">Administra actividades, socios y reservas de forma eficiente.</p>
+
+    <hr />
+
+    @if (!Sesion.EstaLogueado)
+    {
+        <div class="mt-4">
+            <p>Para comenzar, por favor inicia sesión o regístrate si es la primera vez.</p>
+            <div class="d-flex justify-content-center gap-3">
+                <button class="btn btn-primary btn-lg" @onclick="IrALogin">Iniciar Sesión</button>
+                
+                @if (EsPrimerUsuario)
+                {
+                    <button class="btn btn-success btn-lg" @onclick="IrARegistro">Registrar Administrador</button>
+                }
+                else
+                {
+                    <button class="btn btn-outline-secondary btn-lg" @onclick="IrARegistro">Registrarse</button>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="mt-4">
+            <h3>Hola, @Sesion.UsuarioActual?.Nombre @Sesion.UsuarioActual?.Apellido</h3>
+            <p>Has ingresado correctamente. Utiliza el menú lateral para gestionar el centro.</p>
+            <button class="btn btn-danger" @onclick="CerrarSesion">Cerrar Sesión</button>
+        </div>
+    }
+</div>
+
+@code {
+    private bool EsPrimerUsuario = false;
+
+    protected override void OnInitialized()
+    {
+        // Verificamos si no hay usuarios en la DB para destacar el registro del Admin
+        var usuarios = ListarUsuariosUC.Ejecutar();
+        EsPrimerUsuario = (usuarios.Count == 0);
+    }
+
+    private void IrALogin() => Nav.NavigateTo("/login");
+    private void IrARegistro() => Nav.NavigateTo("/registro");
+    
+    private void CerrarSesion()
+    {
+        Sesion.CerrarSesion();
+        Nav.NavigateTo("/", forceLoad: true);
+    }
+}

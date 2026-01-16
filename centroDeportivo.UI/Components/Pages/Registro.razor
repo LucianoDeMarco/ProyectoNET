@@ -1,0 +1,123 @@
+﻿@page "/registro"
+@rendermode InteractiveServer
+@using centroDeportivo.Aplicacion
+@using centroDeportivo.Aplicacion.CasosDeUso
+@using centroDeportivo.Aplicacion.Seguridad
+@inject AgregarUsuarioUseCase AgregarUsuarioUC
+@inject ListarUsuariosUseCase ListarUsuariosUC
+@inject NavigationManager Nav
+
+<PageTitle>Registro - Centro Deportivo</PageTitle>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3>Crear Cuenta</h3>
+                </div>
+                <div class="card-body p-4">
+                @if (registroExitoso)
+{
+    <div class="alert alert-success mt-3 shadow-sm">
+        <i class="bi bi-check-circle-fill"></i> ¡Registro exitoso! 
+        <strong>Redirigiendo al login...</strong>
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(mensajeError))
+{
+    <div class="alert alert-danger mt-3 shadow-sm">
+        <i class="bi bi-exclamation-triangle-fill"></i> @mensajeError
+    </div>
+}
+                    <EditForm Model="@nuevoUsuario" OnValidSubmit="Registrar" FormName="formularioRegistro">
+    <DataAnnotationsValidator />
+    
+    @* Resumen opcional de todos los errores al principio *@
+    <ValidationSummary class="alert alert-danger" />
+
+    <div class="mb-3">
+        <label class="form-label">Nombre</label>
+        <InputText @bind-Value="nuevoUsuario.Nombre" class="form-control" placeholder="Ej: Juan" />
+        <ValidationMessage For="@(() => nuevoUsuario.Nombre)" class="text-danger" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Apellido</label>
+        <InputText @bind-Value="nuevoUsuario.Apellido" class="form-control" placeholder="Ej: Pérez" />
+        <ValidationMessage For="@(() => nuevoUsuario.Apellido)" class="text-danger" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Correo Electrónico</label>
+        <InputText @bind-Value="nuevoUsuario.Mail" class="form-control" placeholder="nombre@ejemplo.com" />
+        <ValidationMessage For="@(() => nuevoUsuario.Mail)" class="text-danger" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Contraseña</label>
+        <InputText @bind-Value="nuevoUsuario.Password" type="password" class="form-control" placeholder="********" />
+        <ValidationMessage For="@(() => nuevoUsuario.Password)" class="text-danger" />
+    </div>
+
+    @* Tu mensaje de error del CATCH (errores de base de datos, etc) *@
+    @if (!string.IsNullOrEmpty(mensajeError))
+    {
+        <div class="alert alert-danger">@mensajeError</div>
+    }
+
+    <div class="d-grid gap-2 mt-4">
+        <button type="submit" class="btn btn-success">Confirmar Registro</button>
+        <button type="button" class="btn btn-link" @onclick="Volver">Ya tengo cuenta</button>
+    </div>
+</EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private Usuario nuevoUsuario = new Usuario();
+    private string? mensajeError;
+    private bool registroExitoso = false; // Nueva variable para mostrar el cartel verde
+
+    private async Task Registrar() // Ahora es asíncrono
+    {
+        try 
+        {
+            mensajeError = null; // Limpiamos errores previos
+
+            // Lógica de negocio: El primer usuario siempre es ADMIN
+            var usuariosExistentes = ListarUsuariosUC.Ejecutar();
+            
+            if (usuariosExistentes.Count == 0)
+            {
+                nuevoUsuario.ListaPermisos = Enum.GetValues<Permiso>().ToList();
+            }
+            else
+            {
+                nuevoUsuario.ListaPermisos = new List<Permiso>(); 
+            }
+
+            AgregarUsuarioUC.Ejecutar(nuevoUsuario);
+            
+            // --- NUEVO: Feedback visual ---
+            registroExitoso = true;
+            StateHasChanged(); // Forzamos a Blazor a mostrar el mensaje de éxito
+
+            // Esperamos 2 segundos para que el usuario lea el mensaje
+            await Task.Delay(2000); 
+
+            Nav.NavigateTo("/login");
+        }
+        catch (Exception ex)
+        {
+            mensajeError = "Error al registrar: " + ex.Message;
+            registroExitoso = false;
+        }
+    }
+
+    private void Volver() => Nav.NavigateTo("/login");
+}

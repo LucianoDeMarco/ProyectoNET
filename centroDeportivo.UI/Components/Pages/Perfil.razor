@@ -1,0 +1,112 @@
+﻿@page "/perfil"
+@rendermode InteractiveServer
+@using centroDeportivo.Aplicacion
+@using centroDeportivo.Aplicacion.CasosDeUso
+@using centroDeportivo.UI.Servicios
+@inject SesionService Sesion
+@inject ModificarUsuarioUseCase ModificarUsuarioUC
+@inject NavigationManager Nav
+
+<PageTitle>Mi Perfil - Centro Deportivo</PageTitle>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-info text-white">
+                    <h3 class="mb-0">Mis Datos Personales</h3>
+                </div>
+                <div class="card-body">
+                    @if (Sesion.UsuarioActual == null)
+                    {
+                        <div class="alert alert-warning">Debes iniciar sesión para ver esta página.</div>
+                    }
+                    else
+                    {
+                        <EditForm Model="@usuarioEditado" OnValidSubmit="GuardarCambios" FormName="formPerfil">
+                            <DataAnnotationsValidator />
+
+                            <div class="mb-3">
+                                <label class="form-label">Nombre</label>
+                                <InputText @bind-Value="usuarioEditado.Nombre" class="form-control" />
+                                <ValidationMessage For="@(() => usuarioEditado.Nombre)" class="text-danger" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Apellido</label>
+                                <InputText @bind-Value="usuarioEditado.Apellido" class="form-control" />
+                                <ValidationMessage For="@(() => usuarioEditado.Apellido)" class="text-danger" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Nueva Contraseña (dejar en blanco para no cambiar)</label>
+                                <InputText @bind-Value="nuevaPassword" type="password" class="form-control" placeholder="********" />
+                            </div>
+
+                            @if (!string.IsNullOrEmpty(mensaje))
+                            {
+                                <div class="alert @(esError ? "alert-danger" : "alert-success")">@mensaje</div>
+                            }
+
+                            <div class="d-grid gap-2 mt-4">
+                                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                                <button type="button" class="btn btn-secondary" @onclick="Volver">Cancelar</button>
+                            </div>
+                        </EditForm>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private Usuario usuarioEditado = new();
+    private string nuevaPassword = "";
+    private string? mensaje;
+    private bool esError = false;
+
+    protected override void OnInitialized()
+    {
+        if (Sesion.UsuarioActual != null)
+        {
+            // Clonamos los datos para no modificar la sesión directamente hasta confirmar
+            usuarioEditado.Id = Sesion.UsuarioActual.Id;
+            usuarioEditado.Nombre = Sesion.UsuarioActual.Nombre;
+            usuarioEditado.Apellido = Sesion.UsuarioActual.Apellido;
+            usuarioEditado.Mail = Sesion.UsuarioActual.Mail;
+            usuarioEditado.Password = Sesion.UsuarioActual.Password;
+            usuarioEditado.ListaPermisos = Sesion.UsuarioActual.ListaPermisos;
+        }
+        else
+        {
+            Nav.NavigateTo("/login");
+        }
+    }
+
+private void GuardarCambios()
+{
+    try
+    {
+        if (!string.IsNullOrWhiteSpace(nuevaPassword))
+        {
+            usuarioEditado.Password = nuevaPassword;
+        }
+
+        // Usamos el usuario de la sesión como 'ejecutante'
+        // y el 'usuarioEditado' como el objeto con los nuevos datos
+        ModificarUsuarioUC.Ejecutar(Sesion.UsuarioActual!, usuarioEditado);
+        
+        Sesion.IniciarSesion(usuarioEditado);
+        mensaje = "Datos actualizados correctamente.";
+        esError = false;
+    }
+    catch (Exception ex)
+    {
+        mensaje = ex.Message;
+        esError = true;
+    }
+}
+
+    private void Volver() => Nav.NavigateTo("/");
+}

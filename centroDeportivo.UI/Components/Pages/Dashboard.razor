@@ -1,0 +1,104 @@
+﻿@page "/dashboard"
+@rendermode InteractiveServer
+@using centroDeportivo.UI.Servicios
+@using centroDeportivo.Aplicacion.Seguridad
+@inject SesionService Sesion
+@inject NavigationManager Nav
+
+<PageTitle>Panel Principal - Centro Deportivo</PageTitle>
+
+@if (Sesion.EstaLogueado)
+{
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="mb-4">Bienvenido, @Sesion.UsuarioActual?.Nombre</h2>
+                <p class="text-muted">¿Qué deseas gestionar hoy?</p>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm border-info">
+                    <div class="card-body text-center">
+                        <i class="bi bi-person-gear fs-1 text-info"></i>
+                        <h5 class="card-title mt-3">Mi Perfil</h5>
+                        <p class="card-text">Actualiza tu nombre, apellido o cambia tu contraseña personal.</p>
+                        <button class="btn btn-info text-white" @onclick='() => Nav.NavigateTo("/perfil")'>Editar Datos</button>
+                    </div>
+                </div>
+            </div>
+            @* Tus tarjetas de Mis Reservas, Gestión de Usuarios, etc. *@
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm border-primary">
+                    <div class="card-body text-center">
+                        <i class="bi bi-calendar-check fs-1 text-primary"></i>
+                        <h5 class="card-title mt-3">Mis Reservas</h5>
+                        <p class="card-text">Consulta y gestiona tus inscripciones a actividades.</p>
+                        <button class="btn btn-primary" @onclick='() => Nav.NavigateTo("/reservas")'>Ver Reservas</button>
+                    </div>
+                </div>
+            </div>
+            @* ... resto de tus tarjetas ... *@
+            @* TARJETAS DE ADMINISTRACIÓN: Solo se ven si tiene el permiso *@
+            @if (Sesion.UsuarioActual?.ListaPermisos.Contains(Permiso.UsuarioModificacion) ?? false)
+            {
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-warning">
+                        <div class="card-body text-center">
+                            <i class="bi bi-people-fill fs-1 text-warning"></i>
+                            <h5 class="card-title mt-3">Gestión de Usuarios</h5>
+                            <p class="card-text">Restablecer contraseñas y administrar permisos del personal.</p>
+                            <button class="btn btn-warning" @onclick='() => Nav.NavigateTo("/usuarios/gestionar")'>
+                                Administrar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-danger">
+                        <div class="card-body text-center">
+                            <i class="bi bi-bicycle fs-1 text-danger"></i>
+                            <h5 class="card-title mt-3">Gestión de Actividades</h5>
+                            <p class="card-text">Crear, modificar o eliminar las clases y horarios del centro.</p>
+                            <button class="btn btn-danger" @onclick='() => Nav.NavigateTo("/actividades/gestionar")'>
+                                Configurar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+else
+{
+    <div class="container mt-5 text-center">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Verificando sesión...</span>
+        </div>
+        <p class="mt-2">Verificando sesión, por favor espera...</p>
+    </div>
+}
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Esperamos un milisegundo para que el circuito de Blazor se estabilice
+            await Task.Delay(100);
+            
+            if (!Sesion.EstaLogueado)
+            {
+                Nav.NavigateTo("/login");
+            }
+            else
+            {
+                // Si está logueado, forzamos el refresco para mostrar el contenido
+                StateHasChanged();
+            }
+        }
+    }
+}

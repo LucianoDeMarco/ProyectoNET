@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNet\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\centroDeportivo.UI.bundle.scp.css",
+      "PackagePath": "staticwebassets\\centroDeportivo.UI.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNet\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\wwwroot\\app.css",
+      "PackagePath": "staticwebassets\\app.css"
+    },
+    {
+      "Id": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNet\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNet\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNet\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.centroDeportivo.UI.props",
+      "PackagePath": "build\\centroDeportivo.UI.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.centroDeportivo.UI.props",
+      "PackagePath": "buildMultiTargeting\\centroDeportivo.UI.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.centroDeportivo.UI.props",
+      "PackagePath": "buildTransitive\\centroDeportivo.UI.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.centroDeportivo.UI.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

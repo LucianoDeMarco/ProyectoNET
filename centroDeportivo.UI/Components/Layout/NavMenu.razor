@@ -1,0 +1,37 @@
+﻿@using centroDeportivo.Aplicacion.Seguridad
+@using centroDeportivo.UI.Servicios
+@inject SesionService Sesion
+
+<div class="nav-item px-3">
+    <NavLink class="nav-link" href="dashboard">
+        <span class="bi bi-house-door-fill" aria-hidden="true"></span> Inicio
+    </NavLink>
+</div>
+
+@* OPCIONES PARA TODOS LOS LOGUEADOS *@
+@if (Sesion.EstaLogueado)
+{
+    <div class="nav-item px-3">
+        <NavLink class="nav-link" href="perfil">
+            <span class="bi bi-person-badge-fill" aria-hidden="true"></span> Mi Perfil
+        </NavLink>
+    </div>
+
+    @* OPCIONES DE ADMINISTRACIÓN (Solo si tiene permisos) *@
+    @if (Sesion.UsuarioActual?.ListaPermisos.Contains(Permiso.UsuarioModificacion) ?? false)
+    {
+        <div class="text-white-50 ps-4 small mt-3">Administración</div>
+        
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="usuarios/gestionar">
+                <span class="bi bi-people-fill" aria-hidden="true"></span> Gestionar Usuarios
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="actividades/gestionar">
+                <span class="bi bi-bicycle" aria-hidden="true"></span> Gestionar Actividades
+            </NavLink>
+        </div>
+    }
+}
