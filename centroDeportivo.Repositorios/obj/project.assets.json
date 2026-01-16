@@ -2402,11 +2402,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNet\\Proyecto\\centroDeportivo\\centroDeportivo.Repositorios\\centroDeportivo.Repositorios.csproj",
+      "projectUniqueName": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNET\\Proyecto\\centroDeportivo\\centroDeportivo.Repositorios\\centroDeportivo.Repositorios.csproj",
       "projectName": "centroDeportivo.Repositorios",
-      "projectPath": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNet\\Proyecto\\centroDeportivo\\centroDeportivo.Repositorios\\centroDeportivo.Repositorios.csproj",
+      "projectPath": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNET\\Proyecto\\centroDeportivo\\centroDeportivo.Repositorios\\centroDeportivo.Repositorios.csproj",
       "packagesPath": "C:\\Users\\lucho\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNet\\Proyecto\\centroDeportivo\\centroDeportivo.Repositorios\\obj\\",
+      "outputPath": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNET\\Proyecto\\centroDeportivo\\centroDeportivo.Repositorios\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\lucho\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -2421,8 +2421,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNet\\Proyecto\\centroDeportivo\\centroDeportivo.Aplicacion\\centroDeportivo.Aplicacion.csproj": {
-              "projectPath": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNet\\Proyecto\\centroDeportivo\\centroDeportivo.Aplicacion\\centroDeportivo.Aplicacion.csproj"
+            "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNET\\Proyecto\\centroDeportivo\\centroDeportivo.Aplicacion\\centroDeportivo.Aplicacion.csproj": {
+              "projectPath": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNET\\Proyecto\\centroDeportivo\\centroDeportivo.Aplicacion\\centroDeportivo.Aplicacion.csproj"
             }
           }
         }

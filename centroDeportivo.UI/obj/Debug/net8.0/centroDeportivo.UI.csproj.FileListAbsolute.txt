@@ -134,3 +134,4 @@ C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDepo
 C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.UI\obj\Debug\net8.0\centroDeportivo.UI.pdb
 C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.UI\obj\Debug\net8.0\centroDeportivo.UI.genruntimeconfig.cache
 C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.UI\obj\Debug\net8.0\ref\centroDeportivo.UI.dll
+C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.UI\obj\Debug\net8.0\centroDeportivo.UI.sourcelink.json

@@ -8,16 +8,18 @@ public class ModificarUsuarioUseCase
     private readonly IUsuarioRepositorio _repo;
     private readonly IServicioAutorizacion _auth;
     private readonly ValidacionesUsuario _validador;
+    private readonly ServicioHash _hashService;
 
-    public ModificarUsuarioUseCase(IUsuarioRepositorio repo, IServicioAutorizacion auth, ValidacionesUsuario validador)
+    public ModificarUsuarioUseCase(IUsuarioRepositorio repo, IServicioAutorizacion auth, ValidacionesUsuario validador, ServicioHash hashService)
     {
         _repo = repo;
         _auth = auth;
         _validador = validador;
+        _hashService = hashService;
     }
 
 
-       public void Ejecutar(Usuario ejecutante, Usuario usuarioModificado)
+       public void Ejecutar(Usuario ejecutante, Usuario usuarioModificado, bool esResetDePassword = false)
         {
             // Permitir si es Admin O si se está editando a sí mismo
             bool esSimesmo = ejecutante.Id == usuarioModificado.Id;
@@ -27,6 +29,11 @@ public class ModificarUsuarioUseCase
             {
                 throw new Exception("No tienes permiso para modificar a otros usuarios.");
             }
+
+        if (esResetDePassword)
+        {
+            usuarioModificado.Password = _hashService.CalcularHash(usuarioModificado.Password);
+        }
 
             _validador.Validar(usuarioModificado);
             _repo.ModificarUsuario(usuarioModificado);

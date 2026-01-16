@@ -2,10 +2,12 @@
 @rendermode InteractiveServer
 @using centroDeportivo.Aplicacion
 @using centroDeportivo.Aplicacion.CasosDeUso
+@using centroDeportivo.Aplicacion.Seguridad
 @using centroDeportivo.UI.Servicios
 @inject SesionService Sesion
 @inject ModificarUsuarioUseCase ModificarUsuarioUC
 @inject NavigationManager Nav
+@inject ServicioHash HashService
 
 <PageTitle>Mi Perfil - Centro Deportivo</PageTitle>
 
@@ -88,17 +90,20 @@ private void GuardarCambios()
 {
     try
     {
+        bool seCambioPass = false;
         if (!string.IsNullOrWhiteSpace(nuevaPassword))
         {
-            usuarioEditado.Password = nuevaPassword;
+            usuarioEditado.Password = HashService.CalcularHash(nuevaPassword);
+            seCambioPass = true;
         }
 
         // Usamos el usuario de la sesión como 'ejecutante'
         // y el 'usuarioEditado' como el objeto con los nuevos datos
-        ModificarUsuarioUC.Ejecutar(Sesion.UsuarioActual!, usuarioEditado);
+        ModificarUsuarioUC.Ejecutar(Sesion.UsuarioActual!, usuarioEditado, false);
         
         Sesion.IniciarSesion(usuarioEditado);
         mensaje = "Datos actualizados correctamente.";
+        nuevaPassword = "";
         esError = false;
     }
     catch (Exception ex)

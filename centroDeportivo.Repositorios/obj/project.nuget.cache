@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "4hIQu87d3DE=",
+  "dgSpecHash": "Iql7oKUo/YA=",
   "success": true,
-  "projectFilePath": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNet\\Proyecto\\centroDeportivo\\centroDeportivo.Repositorios\\centroDeportivo.Repositorios.csproj",
+  "projectFilePath": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNET\\Proyecto\\centroDeportivo\\centroDeportivo.Repositorios\\centroDeportivo.Repositorios.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\lucho\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\lucho\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",

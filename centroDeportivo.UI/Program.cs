@@ -10,6 +10,8 @@ using centroDeportivo.UI.Servicios;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//Servicio Hash
+builder.Services.AddSingleton<ServicioHash>();
 // Registrar el DbContext de Entity Framework
 builder.Services.AddDbContext<CentroDeportivoContext>();
 // --- REPOSITORIOS ---
@@ -55,5 +57,11 @@ app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<CentroDeportivoContext>();
+    context.Database.EnsureCreated();
+}
 
 app.Run();

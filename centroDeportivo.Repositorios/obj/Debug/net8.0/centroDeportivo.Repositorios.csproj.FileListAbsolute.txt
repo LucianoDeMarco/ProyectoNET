@@ -15,3 +15,4 @@ C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDepo
 C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.Repositorios\obj\Debug\net8.0\ref\centroDeportivo.Repositorios.dll
 C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.Repositorios\bin\Debug\net8.0\centroDeportivo.Repositorios.runtimeconfig.json
 C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.Repositorios\obj\Debug\net8.0\centroDeportivo.Repositorios.genruntimeconfig.cache
+C:\Users\lucho\OneDrive\facultad\2do\Seminarios\SeminarioNET\Proyecto\centroDeportivo\centroDeportivo.Repositorios\obj\Debug\net8.0\centroDeportivo.Repositorios.sourcelink.json

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "CiIUyUlwJbIjuhEz0qB07BheVQbK3byebTLiyGDA8Fg=",
+  "Hash": "btBETesxCuNwKAwjOuvcMqX1DvPPEKvslTi2vJfq4dQ=",
   "Source": "centroDeportivo.UI",
   "BasePath": "_content/centroDeportivo.UI",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "centroDeportivo.UI\\wwwroot",
       "Source": "centroDeportivo.UI",
-      "ContentRoot": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNet\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNET\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\wwwroot\\",
       "BasePath": "_content/centroDeportivo.UI",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNet\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\obj\\Debug\\net8.0\\scopedcss\\bundle\\centroDeportivo.UI.styles.css",
+      "Identity": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNET\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\obj\\Debug\\net8.0\\scopedcss\\bundle\\centroDeportivo.UI.styles.css",
       "SourceId": "centroDeportivo.UI",
       "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNet\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\obj\\Debug\\net8.0\\scopedcss\\bundle\\",
+      "ContentRoot": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNET\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\obj\\Debug\\net8.0\\scopedcss\\bundle\\",
       "BasePath": "_content/centroDeportivo.UI",
       "RelativePath": "centroDeportivo.UI.styles.css",
       "AssetKind": "All",
@@ -33,13 +33,13 @@
       "AssetTraitValue": "ApplicationBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNet\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\obj\\Debug\\net8.0\\scopedcss\\bundle\\centroDeportivo.UI.styles.css"
+      "OriginalItemSpec": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNET\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\obj\\Debug\\net8.0\\scopedcss\\bundle\\centroDeportivo.UI.styles.css"
     },
     {
-      "Identity": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNet\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\centroDeportivo.UI.bundle.scp.css",
+      "Identity": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNET\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\centroDeportivo.UI.bundle.scp.css",
       "SourceId": "centroDeportivo.UI",
       "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNet\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\",
+      "ContentRoot": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNET\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\",
       "BasePath": "_content/centroDeportivo.UI",
       "RelativePath": "centroDeportivo.UI.bundle.scp.css",
       "AssetKind": "All",
@@ -52,13 +52,13 @@
       "AssetTraitValue": "ProjectBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNet\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\centroDeportivo.UI.bundle.scp.css"
+      "OriginalItemSpec": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNET\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\centroDeportivo.UI.bundle.scp.css"
     },
     {
-      "Identity": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNet\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\wwwroot\\app.css",
+      "Identity": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNET\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\wwwroot\\app.css",
       "SourceId": "centroDeportivo.UI",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNet\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNET\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\wwwroot\\",
       "BasePath": "_content/centroDeportivo.UI",
       "RelativePath": "app.css",
       "AssetKind": "All",
@@ -74,10 +74,10 @@
       "OriginalItemSpec": "wwwroot\\app.css"
     },
     {
-      "Identity": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNet\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "Identity": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNET\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\wwwroot\\bootstrap\\bootstrap.min.css",
       "SourceId": "centroDeportivo.UI",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNet\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNET\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\wwwroot\\",
       "BasePath": "_content/centroDeportivo.UI",
       "RelativePath": "bootstrap/bootstrap.min.css",
       "AssetKind": "All",
@@ -93,10 +93,10 @@
       "OriginalItemSpec": "wwwroot\\bootstrap\\bootstrap.min.css"
     },
     {
-      "Identity": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNet\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "Identity": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNET\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\wwwroot\\bootstrap\\bootstrap.min.css.map",
       "SourceId": "centroDeportivo.UI",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNet\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNET\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\wwwroot\\",
       "BasePath": "_content/centroDeportivo.UI",
       "RelativePath": "bootstrap/bootstrap.min.css.map",
       "AssetKind": "All",
@@ -112,10 +112,10 @@
       "OriginalItemSpec": "wwwroot\\bootstrap\\bootstrap.min.css.map"
     },
     {
-      "Identity": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNet\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\wwwroot\\favicon.png",
+      "Identity": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNET\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\wwwroot\\favicon.png",
       "SourceId": "centroDeportivo.UI",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNet\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\lucho\\OneDrive\\facultad\\2do\\Seminarios\\SeminarioNET\\Proyecto\\centroDeportivo\\centroDeportivo.UI\\wwwroot\\",
       "BasePath": "_content/centroDeportivo.UI",
       "RelativePath": "favicon.png",
       "AssetKind": "All",
