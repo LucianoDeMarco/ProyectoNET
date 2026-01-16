@@ -38,6 +38,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/lucho/OneDrive/facultad/2do/Seminarios/SeminarioNET/Proyecto/centroDeportivo/centroDeportivo.UI/Components/Pages/Inscripciones.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xJbnNjcmlwY2lvbmVzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/lucho/OneDrive/facultad/2do/Seminarios/SeminarioNET/Proyecto/centroDeportivo/centroDeportivo.UI/Components/Pages/ListarUsuarios.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xMaXN0YXJVc3Vhcmlvcy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 

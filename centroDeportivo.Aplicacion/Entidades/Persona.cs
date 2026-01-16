@@ -1,4 +1,4 @@
-namespace centroDeportivo.Aplicacion;
+namespace centroDeportivo.Aplicacion.Entidades;
 
 public abstract class Persona
 {

@@ -1,0 +1,156 @@
+﻿@page "/inscripciones"
+@rendermode InteractiveServer
+@* --- AGREGÁ ESTOS USINGS --- *@
+@using centroDeportivo.Aplicacion
+@using centroDeportivo.Aplicacion.CasosDeUso.Actividades
+@using centroDeportivo.Aplicacion.CasosDeUso.Reservas
+@using centroDeportivo.Aplicacion.Entidades
+@using centroDeportivo.Aplicacion.CasosDeUso
+@using centroDeportivo.UI.Servicios
+@* --------------------------- *@
+@inject ListarActividadesUseCase ListarActividadesUC
+@inject ReservarActividadUseCase ReservarActividadUC
+@inject SesionService Sesion
+@inject NavigationManager Nav
+
+<PageTitle>Inscripciones - Centro Deportivo</PageTitle>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-calendar-check text-primary"></i> Actividades Disponibles</h2>
+        <span class="badge bg-secondary">Hola, @Sesion.UsuarioActual?.Nombre</span>
+    </div>
+
+    @* --- Mensajes de Feedback --- *@
+    @if (!string.IsNullOrEmpty(mensaje))
+    {
+        <div class="alert @(esError ? "alert-danger" : "alert-success") alert-dismissible fade show shadow-sm" role="alert">
+            @if(esError) { <i class="bi bi-exclamation-circle-fill me-2"></i> }
+            else { <i class="bi bi-check-circle-fill me-2"></i> }
+            
+            @mensaje
+            <button type="button" class="btn-close" @onclick="() => mensaje = null"></button>
+        </div>
+    }
+
+    @* --- Lista de Actividades --- *@
+    @if (actividades == null)
+    {
+        <div class="d-flex justify-content-center py-5">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status"></div>
+        </div>
+    }
+    else if (actividades.Count == 0)
+    {
+        <div class="alert alert-info text-center py-4">
+            <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
+            No hay actividades disponibles en este momento.
+        </div>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            @foreach (var act in actividades)
+            {
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-0 hover-effect">
+                        <div class="card-header bg-white border-bottom-0 pt-3">
+                            <h5 class="card-title fw-bold text-primary mb-0">@act.Nombre</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text text-muted mb-2">
+                                <i class="bi bi-calendar-week me-2"></i> 
+                                <strong>Días:</strong> @(string.IsNullOrEmpty(act.DiasDisponibles) ? "A confirmar" : act.DiasDisponibles)
+                            </p>
+                            
+                            <p class="card-text text-muted">
+                                <i class="bi bi-person-badge me-2"></i> 
+                                <strong>Profe:</strong> @(act.Responsable != null ? $"{act.Responsable.Nombre} {act.Responsable.Apellido}" : "Sin asignar")
+                            </p>
+                            
+                            <hr class="my-3 text-muted" />
+
+                            <div class="d-flex justify-content-between align-items-center text-muted small mb-1">
+                                <span>Cupo Máximo</span>
+                                <span class="badge bg-light text-dark border">@act.CupoMaximo personas</span>
+                            </div>
+                            
+                            @* Barra decorativa (ya que aún no contamos inscriptos reales) *@
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar bg-primary" role="progressbar" style="width: 25%"></div>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-white border-top-0 pb-3">
+                            <button class="btn btn-outline-primary w-100 fw-bold" 
+                                    @onclick="() => Inscribirse(act)">
+                                <i class="bi bi-plus-circle me-1"></i> Inscribirme
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<style>
+    .hover-effect { transition: transform 0.2s; }
+    .hover-effect:hover { transform: translateY(-5px); }
+</style>
+
+@code {
+    private List<ActividadDeportiva>? actividades;
+    private string? mensaje;
+    private bool esError = false;
+
+    protected override void OnInitialized()
+    {
+        if (!Sesion.EstaLogueado)
+        {
+            Nav.NavigateTo("/login");
+            return;
+        }
+
+        CargarActividades();
+    }
+
+    private void CargarActividades()
+    {
+        try
+        {
+            actividades = ListarActividadesUC.Ejecutar();
+        }
+        catch (Exception ex)
+        {
+            mensaje = "Error al cargar las actividades: " + ex.Message;
+            esError = true;
+        }
+    }
+
+    private void Inscribirse(ActividadDeportiva actividad)
+    {
+        try
+        {
+            mensaje = null;
+            esError = false;
+
+            var nuevaReserva = new Reserva
+            {
+                // CORREGIDO: Usamos los nombres reales de tu entidad
+                PersonaId = Sesion.UsuarioActual!.Id,
+                ActividadId = actividad.Id,           
+                FechaReserva = DateTime.Now
+            };
+
+            ReservarActividadUC.Ejecutar(nuevaReserva);
+
+            mensaje = $"¡Genial! Te inscribiste a {actividad.Nombre}.";
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            esError = true;
+            mensaje = "No se pudo realizar la inscripción: " + ex.Message;
+        }
+    }
+}
