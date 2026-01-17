@@ -4,7 +4,6 @@
 @using centroDeportivo.Aplicacion
 @using centroDeportivo.Aplicacion.CasosDeUso.Actividades
 @using centroDeportivo.Aplicacion.CasosDeUso.Reservas
-@using centroDeportivo.Aplicacion.Entidades
 @using centroDeportivo.Aplicacion.CasosDeUso
 @using centroDeportivo.UI.Servicios
 @* --------------------------- *@
@@ -110,7 +109,6 @@
             Nav.NavigateTo("/login");
             return;
         }
-
         CargarActividades();
     }
 
@@ -134,15 +132,19 @@
             mensaje = null;
             esError = false;
 
+            // 1. Preparamos el objeto Reserva
             var nuevaReserva = new Reserva
             {
-                // CORREGIDO: Usamos los nombres reales de tu entidad
-                PersonaId = Sesion.UsuarioActual!.Id,
-                ActividadId = actividad.Id,           
-                FechaReserva = DateTime.Now
+                PersonaId = Sesion.UsuarioActual!.Id, // El socio logueado
+                ActividadId = actividad.Id,
+                FechaReserva = DateTime.Now,
+                EstadoAsistencia = Estado.Pendiente
             };
 
-            ReservarActividadUC.Ejecutar(nuevaReserva);
+            // 2. CORRECCIÓN: Pasamos DOS argumentos:
+            //    A) El usuario actor (Sesion.UsuarioActual)
+            //    B) La reserva a guardar
+            ReservarActividadUC.Ejecutar(Sesion.UsuarioActual!, nuevaReserva);
 
             mensaje = $"¡Genial! Te inscribiste a {actividad.Nombre}.";
             StateHasChanged();

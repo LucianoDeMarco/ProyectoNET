@@ -1,7 +1,7 @@
 using centroDeportivo.Aplicacion.Seguridad;
 using System.ComponentModel.DataAnnotations;
 
-namespace centroDeportivo.Aplicacion.Entidades;
+namespace centroDeportivo.Aplicacion;
 
 public class Usuario
 {

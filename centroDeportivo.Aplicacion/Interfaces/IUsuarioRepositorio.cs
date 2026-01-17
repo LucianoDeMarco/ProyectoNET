@@ -1,5 +1,5 @@
 namespace centroDeportivo.Aplicacion.Interfaces;
-
+using centroDeportivo.Aplicacion;
 public interface IUsuarioRepositorio
 {
     void AgregarUsuario(Usuario usuario);

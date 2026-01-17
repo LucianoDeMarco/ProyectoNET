@@ -1,50 +1,63 @@
 using centroDeportivo.Aplicacion;
-using centroDeportivo.Aplicacion.interfaces;
+using centroDeportivo.Aplicacion.interfaces; 
 using Microsoft.EntityFrameworkCore;
 
 namespace centroDeportivo.Repositorios;
 
 public class ActividadRepositorioDB : IActividadRepository
 {
-    private readonly CentroDeportivoContext _context;
-
-    public ActividadRepositorioDB(CentroDeportivoContext context)
-    {
-        _context = context;
-    }
+    // Eliminamos el constructor y variable privada para usar el patrón "using"
+    // igual que en tu UsuarioRepositorio, para evitar problemas de configuración.
 
     public List<ActividadDeportiva> ObtenerTodas()
     {
-        // Retornamos la lista desde la base de datos
-        return _context.Actividades.ToList();
+        using var db = new CentroDeportivoContext();
+        
+        // CORREGIDO: Agregamos .Include para traer los datos del Responsable (Profe)
+        // Sin esto, act.Responsable sería null en la pantalla.
+        return db.Actividades
+                 .Include(a => a.Responsable) 
+                 .ToList();
     }
 
     public ActividadDeportiva? ObtenerPorId(int id)
     {
-        // Buscamos por la clave primaria
-        return _context.Actividades.Find(id);
+        using var db = new CentroDeportivoContext();
+        
+        return db.Actividades
+                 .Include(a => a.Responsable) // También aquí por si se usa en detalle
+                 .FirstOrDefault(a => a.Id == id);
     }
 
     public void Guardar(ActividadDeportiva actividad)
     {
-        _context.Actividades.Add(actividad);
-        _context.SaveChanges(); // Persiste en el archivo .db
+        using var db = new CentroDeportivoContext();
+        
+        // Si el Responsable ya existe en la DB, evitamos que intente crearlo de nuevo
+        if (actividad.Responsable != null)
+        {
+            db.Entry(actividad.Responsable).State = EntityState.Unchanged;
+        }
+
+        db.Actividades.Add(actividad);
+        db.SaveChanges();
     }
 
     public void Modificar(ActividadDeportiva actividad)
     {
-        // Marcamos la entidad como modificada y guardamos
-        _context.Actividades.Update(actividad);
-        _context.SaveChanges();
+        using var db = new CentroDeportivoContext();
+        db.Actividades.Update(actividad);
+        db.SaveChanges();
     }
 
     public void Eliminar(int id)
     {
-        var act = ObtenerPorId(id);
+        using var db = new CentroDeportivoContext();
+        var act = db.Actividades.Find(id);
         if (act != null)
         {
-            _context.Actividades.Remove(act);
-            _context.SaveChanges();
+            db.Actividades.Remove(act);
+            db.SaveChanges();
         }
     }
 }

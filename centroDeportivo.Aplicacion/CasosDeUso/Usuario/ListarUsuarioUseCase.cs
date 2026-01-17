@@ -1,6 +1,6 @@
 using centroDeportivo.Aplicacion;
 using centroDeportivo.Aplicacion.Interfaces;
-
+using centroDeportivo.Aplicacion;
 public class ListarUsuariosUseCase
 {
     private readonly IUsuarioRepositorio _repo;

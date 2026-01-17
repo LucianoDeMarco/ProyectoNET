@@ -1,4 +1,5 @@
 using centroDeportivo.Aplicacion.interfaces;
+using centroDeportivo.Aplicacion;
 
 namespace centroDeportivo.Aplicacion.CasosDeUso.Reservas;
 

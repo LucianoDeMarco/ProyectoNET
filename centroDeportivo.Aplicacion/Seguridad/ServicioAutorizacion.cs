@@ -1,6 +1,6 @@
 namespace centroDeportivo.Aplicacion.Seguridad;
 using centroDeportivo.Aplicacion.Interfaces;
-
+using centroDeportivo.Aplicacion;
 public class ServicioAutorizacion : IServicioAutorizacion
 {
     public bool PoseePermiso(Usuario usuario, Permiso permisoRequerido)

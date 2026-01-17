@@ -3,6 +3,11 @@ namespace centroDeportivo.Aplicacion.Seguridad;
 public enum Permiso
 {
     Administrador,
+
+    ActividadLectura, 
+    InscripcionLectura,
+    UsuarioLectura,
+    
     ActividadAlta,
     ActividadModificacion,
     ActividadBaja,

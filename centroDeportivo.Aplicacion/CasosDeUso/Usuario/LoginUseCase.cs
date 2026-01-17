@@ -1,7 +1,7 @@
 using centroDeportivo.Aplicacion;
 using centroDeportivo.Aplicacion.Interfaces;
 using centroDeportivo.Aplicacion.Seguridad;
-
+using centroDeportivo.Aplicacion;
 public class LoginUseCase
 {
     private readonly IUsuarioRepositorio _repo;

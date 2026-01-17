@@ -1,8 +1,9 @@
+namespace centroDeportivo.Repositorios;
+
 using Microsoft.EntityFrameworkCore; 
 using centroDeportivo.Aplicacion;
 using centroDeportivo.Aplicacion.Seguridad;
 
-namespace centroDeportivo.Repositorios;
 
 public class CentroDeportivoContext : DbContext
 {

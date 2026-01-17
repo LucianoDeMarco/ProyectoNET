@@ -1,4 +1,4 @@
-namespace centroDeportivo.Aplicacion.Entidades;
+namespace centroDeportivo.Aplicacion;
 
 public enum Estado
 {

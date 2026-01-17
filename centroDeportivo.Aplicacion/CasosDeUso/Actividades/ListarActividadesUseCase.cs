@@ -1,4 +1,4 @@
-using centroDeportivo.Aplicacion.Entidades;
+using centroDeportivo.Aplicacion;
 using centroDeportivo.Aplicacion.interfaces;
 
 namespace centroDeportivo.Aplicacion.CasosDeUso.Actividades;

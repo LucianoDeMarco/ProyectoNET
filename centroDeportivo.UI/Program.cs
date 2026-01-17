@@ -7,6 +7,7 @@ using centroDeportivo.Aplicacion.Validadores;
 using centroDeportivo.Aplicacion.CasosDeUso.Actividades;
 using centroDeportivo.Aplicacion.interfaces;
 using centroDeportivo.UI.Servicios;
+using centroDeportivo.Aplicacion.CasosDeUso.Reservas;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +41,10 @@ builder.Services.AddTransient<EliminarUsuarioUseCase>();  // Necesario para dar 
 builder.Services.AddTransient<AltaActividadUseCase>();
 builder.Services.AddTransient<ListarActividadesUseCase>();
 // ... registrar el resto de tus casos de uso existentes
+
+builder.Services.AddTransient<CancelarReservaUseCase>();
+builder.Services.AddTransient<ListarReservasUseCase>();
+
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();

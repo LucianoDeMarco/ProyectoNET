@@ -24,6 +24,15 @@ public class AgregarUsuarioUseCase
         if (todos.Count == 0)
         {
             nuevoUsuario.ListaPermisos = Enum.GetValues<Permiso>().ToList();
+        } else
+        {
+            // Usuarios normales: Solo lectura
+            nuevoUsuario.ListaPermisos = new List<Permiso>
+            {
+                Permiso.ActividadLectura,
+                Permiso.InscripcionLectura,
+                Permiso.UsuarioLectura
+            };
         }
 
         // 3. Guardar

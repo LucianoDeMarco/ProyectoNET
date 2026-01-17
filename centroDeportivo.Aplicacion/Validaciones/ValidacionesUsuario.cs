@@ -1,4 +1,5 @@
 namespace centroDeportivo.Aplicacion.Validadores;
+using centroDeportivo.Aplicacion;
 
 public class ValidacionesUsuario
 {

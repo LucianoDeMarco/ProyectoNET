@@ -1,0 +1,145 @@
+﻿@page "/reservas"
+@rendermode InteractiveServer
+@using centroDeportivo.Aplicacion
+@using centroDeportivo.Aplicacion.CasosDeUso.Reservas
+@using centroDeportivo.UI.Servicios
+@inject ListarReservasUseCase ListarReservasUC
+@inject CancelarReservaUseCase CancelarReservaUC
+@inject SesionService Sesion
+@inject NavigationManager Nav
+
+<PageTitle>Mis Reservas - Centro Deportivo</PageTitle>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-ticket-perforated text-primary"></i> Mis Reservas</h2>
+        <button class="btn btn-outline-primary" @onclick='() => Nav.NavigateTo("/inscripciones")'>
+            <i class="bi bi-plus-lg"></i> Nueva Reserva
+        </button>
+    </div>
+
+    @if (!string.IsNullOrEmpty(mensaje))
+    {
+        <div class="alert @(esError ? "alert-danger" : "alert-success") alert-dismissible fade show" role="alert">
+            @mensaje
+            <button type="button" class="btn-close" @onclick="() => mensaje = null"></button>
+        </div>
+    }
+
+    @if (misReservas == null)
+    {
+        <div class="spinner-border text-primary" role="status"></div>
+    }
+    else if (misReservas.Count == 0)
+    {
+        <div class="alert alert-light border text-center py-5">
+            <i class="bi bi-calendar-x fs-1 text-muted"></i>
+            <p class="mt-3 text-muted">No tienes reservas activas.</p>
+            <button class="btn btn-primary mt-2" @onclick='() => Nav.NavigateTo("/inscripciones")'>
+                Ver Actividades
+            </button>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive shadow-sm rounded">
+            <table class="table table-hover mb-0 align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Actividad</th>
+                        <th>Fecha Inscripción</th>
+                        <th>Estado</th>
+                        <th class="text-end">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var res in misReservas)
+                    {
+                        <tr>
+                            <td>
+                                @* Aquí idealmente mostrarías el nombre de la actividad. 
+                                   Si tu objeto Reserva solo tiene el ID, necesitaríamos buscar el nombre 
+                                   o que el UseCase traiga la Actividad completa (.Include) *@
+                                <span class="fw-bold text-primary">Actividad #@res.ActividadId</span>
+                            </td>
+                            <td>@res.FechaReserva.ToShortDateString()</td>
+                            <td>
+                                <span class="badge @ObtenerColorEstado(res.EstadoAsistencia)">
+                                    @res.EstadoAsistencia
+                                </span>
+                            </td>
+                            <td class="text-end">
+                                @if (res.EstadoAsistencia != Estado.Cancelada)
+                                {
+                                    <button class="btn btn-outline-danger btn-sm" 
+                                            @onclick="() => Cancelar(res)">
+                                        <i class="bi bi-x-circle"></i> Cancelar
+                                    </button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+@code {
+    private List<Reserva>? misReservas;
+    private string? mensaje;
+    private bool esError = false;
+
+    protected override void OnInitialized()
+    {
+        if (!Sesion.EstaLogueado)
+        {
+            Nav.NavigateTo("/login");
+            return;
+        }
+        CargarReservas();
+    }
+
+    private void CargarReservas()
+    {
+        try
+        {
+            // Nota: Este UseCase debería traer TODAS, así que filtramos aquí 
+            // o mejor aún, el UseCase debería tener un método 'Ejecutar(usuarioId)'
+            var todas = ListarReservasUC.Ejecutar();
+            misReservas = todas.Where(r => r.PersonaId == Sesion.UsuarioActual!.Id).ToList();
+        }
+        catch (Exception ex)
+        {
+            mensaje = "Error al cargar reservas: " + ex.Message;
+            esError = true;
+        }
+    }
+
+    private void Cancelar(Reserva reserva)
+    {
+        try
+        {
+            // Enviamos el usuario actual para validar permisos (si aplica) y la reserva
+            CancelarReservaUC.Ejecutar(Sesion.UsuarioActual!, reserva.Id);
+            
+            mensaje = "Reserva cancelada correctamente.";
+            esError = false;
+            CargarReservas(); // Refrescamos la lista
+        }
+        catch (Exception ex)
+        {
+            mensaje = "No se pudo cancelar: " + ex.Message;
+            esError = true;
+        }
+    }
+
+    private string ObtenerColorEstado(Estado estado) => estado switch
+    {
+        Estado.Pendiente => "bg-warning text-dark",
+        Estado.Asistio => "bg-success",
+        Estado.NoAsistio => "bg-secondary",
+        Estado.Cancelada => "bg-danger",
+        _ => "bg-light text-dark"
+    };
+}

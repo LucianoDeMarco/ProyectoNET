@@ -1,5 +1,5 @@
 namespace centroDeportivo.Aplicacion.interfaces;
-
+using centroDeportivo.Aplicacion;
 public interface IReservaRepository
 {
     // Lectura

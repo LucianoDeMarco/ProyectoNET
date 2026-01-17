@@ -9,64 +9,82 @@
 @inject SesionService Sesion
 @inject NavigationManager Nav
 
-<PageTitle>Gestión de Usuarios - Centro Deportivo</PageTitle>
+<PageTitle>Directorio de Socios - Centro Deportivo</PageTitle>
 
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3><i class="bi bi-people-fill"></i> Administración de Usuarios</h3>
+        <h3><i class="bi bi-people-fill"></i> Directorio de Socios</h3>
         <button class="btn btn-outline-secondary btn-sm" @onclick='() => Nav.NavigateTo("/dashboard")'>Volver</button>
     </div>
     
-    <p class="text-muted">Desde aquí puedes restablecer contraseñas tras contacto directo con el usuario.</p>
+    @* Mensaje solo para Admins *@
+    @if (esAdmin)
+    {
+        <div class="alert alert-warning py-2 mb-3">
+            <i class="bi bi-shield-lock-fill"></i> 
+            <small>Modo Administrador: Puedes restablecer contraseñas.</small>
+        </div>
+    }
 
     @if (usuarios == null)
     {
         <div class="d-flex align-items-center">
             <div class="spinner-border text-primary me-2"></div>
-            <span>Cargando usuarios...</span>
+            <span>Cargando directorio...</span>
         </div>
     }
-    else if (usuarios.Count <= 1 && usuarios.Any(u => u.Id == Sesion.UsuarioActual?.Id))
+    else if (usuarios.Count == 0)
     {
-        @* Si solo estás vos (el Admin), mostramos que no hay otros usuarios *@
-        <div class="alert alert-info shadow-sm mt-3">
-            <i class="bi bi-info-circle-fill"></i> No hay otros usuarios registrados para modificar su contraseña.
-        </div>
+        <div class="alert alert-info">No hay usuarios registrados.</div>
     }
     else
     {
         <table class="table table-hover shadow-sm mt-3">
             <thead class="table-dark">
                 <tr>
-                    <th>Nombre Completo</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
                     <th>Email</th>
-                    <th class="text-center">Acciones</th>
+                    <th>ID Socio</th>
+                    
+                    @* OJO: La columna "Acciones" solo se dibuja si sos Admin *@
+                    @if (esAdmin) 
+                    { 
+                        <th class="text-center">Acciones</th> 
+                    }
                 </tr>
             </thead>
             <tbody>
                 @foreach (var user in usuarios)
                 {
-                    @* Ocultamos al admin logueado de la lista para que no se auto-resetee *@
-                    if (user.Id != Sesion.UsuarioActual?.Id)
-                    {
-                        <tr>
-                            <td class="align-middle">@user.Nombre @user.Apellido</td>
-                            <td class="align-middle">@user.Mail</td>
-                            <td class="text-center">
-                                <button class="btn btn-warning btn-sm" @onclick="() => AbrirModalReset(user)">
-                                    <i class="bi bi-shield-lock"></i> Resetear Clave
-                                </button>
-                            </td>
-                        </tr>
-                    }
+                    <tr>
+                        <td>@user.Nombre</td>
+                        <td>@user.Apellido</td>
+                        <td>@user.Mail</td>
+                        <td><span class="badge bg-secondary">#@user.Id</span></td>
+                        
+                        @* Botones: Solo si sos Admin *@
+                        @if (esAdmin)
+                        {
+                           <td class="text-center">
+                                @* No te podés resetear a vos mismo *@
+                                @if(user.Id != Sesion.UsuarioActual?.Id)
+                                {
+                                    <button class="btn btn-warning btn-sm" @onclick="() => AbrirModalReset(user)">
+                                        <i class="bi bi-key-fill"></i> Resetear
+                                    </button>
+                                }
+                           </td>
+                        }
+                    </tr>
                 }
             </tbody>
         </table>
     }
 </div>
 
-@* --- "Modal" sencillo para el cambio de clave --- *@
-@if (usuarioAEditar != null)
+@* --- Modal de Reset (Solo se muestra si sos Admin) --- *@
+@if (usuarioAEditar != null && esAdmin)
 {
     <div class="modal-backdrop fade show"></div>
     <div class="modal fade show d-block" tabindex="-1">
@@ -78,17 +96,17 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label">Escribe la nueva contraseña temporal:</label>
-                        <input type="password" class="form-control" @bind="nuevaPass" placeholder="Mínimo 4 caracteres" />
-                        @if (errorModal != null)
-                        {
-                            <div class="text-danger mt-2 small">@errorModal</div>
-                        }
+                        <label class="form-label">Contraseña Temporal:</label>
+                        <input type="text" class="form-control" @bind="nuevaPass" placeholder="Mínimo 4 caracteres" />
                     </div>
+                    @if (errorModal != null)
+                    {
+                        <div class="text-danger small">@errorModal</div>
+                    }
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" @onclick="() => usuarioAEditar = null">Cancelar</button>
-                    <button class="btn btn-primary" @onclick="ProcesarReset">Guardar Cambios</button>
+                    <button class="btn btn-primary" @onclick="ProcesarReset">Guardar</button>
                 </div>
             </div>
         </div>
@@ -100,37 +118,38 @@
     private Usuario? usuarioAEditar;
     private string nuevaPass = "";
     private string? errorModal;
+    
+    // Variable clave para controlar qué se ve
+    private bool esAdmin = false; 
 
     protected override void OnInitialized()
-{
-    // 1. Verificación de Seguridad: ¿Hay alguien logueado?
-    // Usamos ?. para que si es nulo no explote, y ?? false para que de falso
-    if (Sesion.UsuarioActual == null)
     {
-        Console.WriteLine("DEBUG: No hay usuario en sesión, redirigiendo...");
-        Nav.NavigateTo("/login");
-        return;
+        // 1. Si no hay nadie, al login
+        if (!Sesion.EstaLogueado) 
+        { 
+            Nav.NavigateTo("/login"); 
+            return; 
+        }
+
+        // 2. SEGURIDAD: Ahora permitimos entrar con "UsuarioLectura"
+        // Antes pedíamos "UsuarioModificacion" y por eso rebotaba.
+        if (!Sesion.UsuarioActual!.ListaPermisos.Contains(Permiso.UsuarioLectura))
+        {
+            Nav.NavigateTo("/dashboard");
+            return;
+        }
+
+        // 3. Chequeamos si tiene "Superpoderes" para activar los botones
+        esAdmin = Sesion.UsuarioActual.ListaPermisos.Contains(Permiso.UsuarioModificacion);
+
+        CargarUsuarios();
     }
 
-    // 2. Ahora que sabemos que el usuario NO es nulo, miramos los permisos
-    if (!Sesion.UsuarioActual.ListaPermisos.Contains(Permiso.UsuarioModificacion))
+    private void CargarUsuarios()
     {
-        Console.WriteLine("DEBUG: El usuario no tiene el permiso UsuarioModificacion");
-        Nav.NavigateTo("/dashboard");
-        return;
+        try { usuarios = ListarUsuariosUC.Ejecutar(); }
+        catch { usuarios = new List<Usuario>(); }
     }
-
-    // 3. Si pasó los filtros, cargamos la lista
-    try 
-    {
-        usuarios = ListarUsuariosUC.Ejecutar();
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"Error al cargar usuarios: {ex.Message}");
-        usuarios = new List<Usuario>(); 
-    }
-}
 
     private void AbrirModalReset(Usuario u)
     {
@@ -143,26 +162,16 @@
     {
         if (string.IsNullOrWhiteSpace(nuevaPass) || nuevaPass.Length < 4)
         {
-            errorModal = "La contraseña debe tener al menos 4 caracteres.";
+            errorModal = "La contraseña es muy corta.";
             return;
         }
-
+        
         if (usuarioAEditar != null)
         {
-            try 
-            {
-                usuarioAEditar.Password = nuevaPass;
-                // El parámetro 'true' indica que es un Reset y debe hashear la clave
-                ModificarUsuarioUC.Ejecutar(Sesion.UsuarioActual!, usuarioAEditar, true);
-                
-                usuarioAEditar = null;
-                nuevaPass = "";
-                StateHasChanged();
-            }
-            catch (Exception ex)
-            {
-                errorModal = "Error: " + ex.Message;
-            }
+            usuarioAEditar.Password = nuevaPass;
+            // IMPORTANTE: El 'true' final indica que hay que hashear la clave
+            ModificarUsuarioUC.Ejecutar(Sesion.UsuarioActual!, usuarioAEditar, true);
+            usuarioAEditar = null;
         }
     }
 }

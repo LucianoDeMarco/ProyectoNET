@@ -1,7 +1,7 @@
 namespace centroDeportivo.Aplicacion.CasosDeUso;
 using centroDeportivo.Aplicacion.Interfaces;
 using centroDeportivo.Aplicacion.Seguridad;
-
+using centroDeportivo.Aplicacion;
 public class EliminarUsuarioUseCase
 {
     private readonly IUsuarioRepositorio _repo;

@@ -1,4 +1,5 @@
 using centroDeportivo.Aplicacion.interfaces;
+using centroDeportivo.Aplicacion;
 
 namespace centroDeportivo.Aplicacion.Validaciones;
 public static class ValidacionesResponsable

@@ -41,21 +41,25 @@
             </div>
             @* ... resto de tus tarjetas ... *@
             @* TARJETAS DE ADMINISTRACIÓN: Solo se ven si tiene el permiso *@
-            @if (Sesion.UsuarioActual?.ListaPermisos.Contains(Permiso.UsuarioModificacion) ?? false)
+            @if (Sesion.UsuarioActual?.ListaPermisos.Contains(Permiso.UsuarioLectura) ?? false)
             {
                 <div class="col-md-4">
                     <div class="card h-100 shadow-sm border-warning">
                         <div class="card-body text-center">
                             <i class="bi bi-people-fill fs-1 text-warning"></i>
-                            <h5 class="card-title mt-3">Gestión de Usuarios</h5>
-                            <p class="card-text">Restablecer contraseñas y administrar permisos del personal.</p>
+                            <h5 class="card-title mt-3">Directorio de Socios</h5>
+                            <p class="card-text">Ver listado de socios @(Sesion.UsuarioActual.ListaPermisos.Contains(Permiso.UsuarioModificacion) ? "y gestionar claves" : "").</p>
                             <button class="btn btn-warning" @onclick='() => Nav.NavigateTo("/usuarios/gestionar")'>
-                                Administrar
+                                @(Sesion.UsuarioActual.ListaPermisos.Contains(Permiso.UsuarioModificacion) ? "Administrar" : "Ver Listado")
                             </button>
                         </div>
                     </div>
                 </div>
+            }
 
+            @* 2. Gestión de Actividades: Visible solo para quien tenga MODIFICACIÓN (Solo Admins) *@
+            @if (Sesion.UsuarioActual?.ListaPermisos.Contains(Permiso.ActividadModificacion) ?? false)
+            {
                 <div class="col-md-4">
                     <div class="card h-100 shadow-sm border-danger">
                         <div class="card-body text-center">

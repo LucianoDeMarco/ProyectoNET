@@ -2,7 +2,7 @@ namespace centroDeportivo.Aplicacion.CasosDeUso;
 using centroDeportivo.Aplicacion.Interfaces;
 using centroDeportivo.Aplicacion.Seguridad;
 using centroDeportivo.Aplicacion.Validadores;
-
+using centroDeportivo.Aplicacion;
 public class ModificarUsuarioUseCase
 {
     private readonly IUsuarioRepositorio _repo;

@@ -94,19 +94,14 @@
 
     try 
     {
-        // 2. Lógica de negocio
-        var usuariosExistentes = ListarUsuariosUC.Ejecutar();
-        nuevoUsuario.ListaPermisos = (usuariosExistentes.Count == 0) 
-            ? Enum.GetValues<Permiso>().ToList() 
-            : new List<Permiso>();
 
-        // 3. Hasheo
+        // 2. Hasheo
         nuevoUsuario.Password = HashService.CalcularHash(passwordPlana);
         
-        // 4. Guardar
+        // 3. Guardar
         AgregarUsuarioUC.Ejecutar(nuevoUsuario);
         
-        // 5. Éxito
+        // 4. Éxito
         passwordPlana = "";
         registroExitoso = true;
         StateHasChanged();

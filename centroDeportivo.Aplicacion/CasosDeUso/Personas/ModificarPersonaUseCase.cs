@@ -1,6 +1,7 @@
 using centroDeportivo.Aplicacion.Excepciones;
 using centroDeportivo.Aplicacion.interfaces;
 using centroDeportivo.Aplicacion.Validaciones;
+using centroDeportivo.Aplicacion;
 
 namespace centroDeportivo.Aplicacion.CasosDeUso.Personas;
 
