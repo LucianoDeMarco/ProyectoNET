@@ -1,0 +1,272 @@
+﻿@page "/actividades/gestionar"
+@rendermode InteractiveServer
+@using centroDeportivo.Aplicacion
+@using centroDeportivo.Aplicacion.CasosDeUso.Actividades
+@using centroDeportivo.Aplicacion.CasosDeUso.Personas
+@using centroDeportivo.Aplicacion.Seguridad
+@using centroDeportivo.UI.Servicios
+@inject ListarActividadesUseCase ListarActividadesUC
+@inject AltaActividadUseCase AltaActividadUC
+@inject ModificarActividadUseCase ModificarActividadUC
+@inject BajaActividadUseCase BajaActividadUC
+@inject ListarPersonasUseCase ListarPersonasUC
+@inject SesionService Sesion
+@inject NavigationManager Nav
+
+<PageTitle>Gestión de Actividades - Centro Deportivo</PageTitle>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-bicycle text-danger"></i> Gestión de Actividades</h2>
+        <button class="btn btn-success" @onclick="AbrirModalAlta">
+            <i class="bi bi-plus-lg"></i> Nueva Actividad
+        </button>
+    </div>
+
+    @* --- Feedback --- *@
+    @if (!string.IsNullOrEmpty(mensaje))
+    {
+        <div class="alert @(esError ? "alert-danger" : "alert-success") alert-dismissible fade show" role="alert">
+            @mensaje
+            <button type="button" class="btn-close" @onclick="() => mensaje = null"></button>
+        </div>
+    }
+
+    @* --- Tabla de Actividades --- *@
+    @if (listaActividades == null)
+    {
+        <div class="spinner-border text-danger" role="status"></div>
+    }
+    else if (listaActividades.Count == 0)
+    {
+        <div class="alert alert-info">No hay actividades registradas. ¡Crea la primera!</div>
+    }
+    else
+    {
+        <table class="table table-hover align-middle shadow-sm">
+            <thead class="table-dark">
+                <tr>
+                    <th>Actividad</th>
+                    <th>Días</th>
+                    <th>Cupo</th>
+                    <th>Responsable</th>
+                    <th class="text-end">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var act in listaActividades)
+                {
+                    <tr>
+                        <td class="fw-bold">@act.Nombre</td>
+                        <td><span class="badge bg-light text-dark border">@act.DiasDisponibles</span></td>
+                        <td>@act.CupoMaximo</td>
+                        <td>
+                            @if (act.Responsable != null)
+                            {
+                                <span class="text-primary"><i class="bi bi-person-badge"></i> @act.Responsable.Nombre @act.Responsable.Apellido</span>
+                            }
+                            else
+                            {
+                                <span class="text-muted small">Sin asignar</span>
+                            }
+                        </td>
+                        <td class="text-end" style="min-width: 200px;">
+                            @* Botón EDITAR: Azul sólido con texto *@
+                            <button class="btn btn-primary btn-sm me-2 shadow-sm" 
+                                    @onclick="() => AbrirModalEdicion(act)" 
+                                    title="Modificar datos de la actividad">
+                                <i class="bi bi-pencil-square"></i> Editar
+                            </button>
+
+                            @* Botón BORRAR: Rojo sólido con texto *@
+                            <button class="btn btn-danger btn-sm shadow-sm" 
+                                    @onclick="() => ConfirmarBaja(act)" 
+                                    title="Eliminar esta actividad permanentemente">
+                                <i class="bi bi-trash3-fill"></i> Borrar
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+@* --- Modal de Alta/Edición --- *@
+@if (mostrarModal)
+{
+    <div class="modal-backdrop fade show"></div>
+    <div class="modal fade show d-block" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">@(esEdicion ? "Editar Actividad" : "Nueva Actividad")</h5>
+                    <button type="button" class="btn-close btn-close-white" @onclick="CerrarModal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Nombre de la Actividad</label>
+                        <input type="text" class="form-control" @bind="actividadEnEdicion.Nombre" placeholder="Ej: CrossFit" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Días y Horarios</label>
+                        <input type="text" class="form-control" @bind="actividadEnEdicion.DiasDisponibles" placeholder="Ej: Lun y Mie 18hs" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Cupo Máximo</label>
+                        <input type="number" class="form-control" @bind="actividadEnEdicion.CupoMaximo" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Profesor Responsable</label>
+                        <select class="form-select" @bind="idDocenteSeleccionado">
+                            <option value="0">-- Seleccionar --</option>
+                            @if (listaPersonas != null)
+                            {
+                                foreach (var p in listaPersonas)
+                                {
+                                    <option value="@p.Id">@p.Nombre @p.Apellido (ID: @p.Id)</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="CerrarModal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" @onclick="GuardarCambios">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private List<ActividadDeportiva>? listaActividades;
+    private List<Persona>? listaPersonas;
+    private ActividadDeportiva actividadEnEdicion = new();
+    
+    // Variables de estado
+    private bool mostrarModal = false;
+    private bool esEdicion = false;
+    private int idDocenteSeleccionado = 0;
+    
+    // Mensajes
+    private string? mensaje;
+    private bool esError = false;
+
+    protected override void OnInitialized()
+    {
+        var permisos = Sesion.UsuarioActual!.ListaPermisos;
+        
+        bool tieneAcceso = permisos.Contains(Permiso.ActividadLectura) || 
+                           permisos.Contains(Permiso.ActividadModificacion);
+
+        if (!Sesion.EstaLogueado || !tieneAcceso)
+        {
+            Nav.NavigateTo("/dashboard");
+            return;
+        }
+
+        CargarDatos();
+    }
+
+    private void CargarDatos()
+    {
+        try
+        {
+            listaActividades = ListarActividadesUC.Ejecutar();
+            // Cargamos todas las personas para el combo. 
+            // Idealmente filtraríamos solo por Docentes si tuvieras un método específico.
+            listaPersonas = ListarPersonasUC.Ejecutar(); 
+        }
+        catch (Exception ex)
+        {
+            mensaje = "Error al cargar datos: " + ex.Message;
+            esError = true;
+        }
+    }
+
+    private void AbrirModalAlta()
+    {
+        esEdicion = false;
+        actividadEnEdicion = new ActividadDeportiva(); // Limpiamos
+        idDocenteSeleccionado = 0;
+        mostrarModal = true;
+    }
+
+    private void AbrirModalEdicion(ActividadDeportiva act)
+    {
+        esEdicion = true;
+        // Clonamos el objeto para no editar la tabla directamente antes de guardar
+        actividadEnEdicion = new ActividadDeportiva
+        {
+            Id = act.Id,
+            Nombre = act.Nombre,
+            DiasDisponibles = act.DiasDisponibles,
+            CupoMaximo = act.CupoMaximo,
+            Responsable = act.Responsable
+        };
+        
+        // Seteamos el combo con el ID del responsable actual
+        idDocenteSeleccionado = act.Responsable?.Id ?? 0;
+        
+        mostrarModal = true;
+    }
+
+    private void CerrarModal() => mostrarModal = false;
+
+    private void GuardarCambios()
+    {
+        try
+        {
+            // Asignamos el objeto Responsable según lo seleccionado en el combo
+            if (idDocenteSeleccionado > 0)
+            {
+                var docente = listaPersonas?.FirstOrDefault(p => p.Id == idDocenteSeleccionado);
+                actividadEnEdicion.Responsable = docente;
+            }
+            else
+            {
+                actividadEnEdicion.Responsable = null;
+            }
+
+            if (esEdicion)
+            {
+                ModificarActividadUC.Ejecutar(Sesion.UsuarioActual!, actividadEnEdicion);
+                mensaje = "Actividad modificada con éxito.";
+            }
+            else
+            {
+                AltaActividadUC.Ejecutar(Sesion.UsuarioActual!, actividadEnEdicion);
+                mensaje = "Actividad creada con éxito.";
+            }
+
+            esError = false;
+            mostrarModal = false;
+            CargarDatos(); // Refrescamos la grilla
+        }
+        catch (Exception ex)
+        {
+            esError = true;
+            mensaje = "No se pudo guardar: " + ex.Message;
+            // No cerramos el modal para que corrija
+        }
+    }
+
+    private void ConfirmarBaja(ActividadDeportiva act)
+    {
+        // En un caso real, aquí iría un cartel de confirmación JS o Modal
+        // Por simplicidad, eliminamos directo
+        try
+        {
+            BajaActividadUC.Ejecutar(Sesion.UsuarioActual!, act.Id);
+            mensaje = "Actividad eliminada.";
+            esError = false;
+            CargarDatos();
+        }
+        catch (Exception ex)
+        {
+            esError = true;
+            mensaje = "No se pudo eliminar: " + ex.Message;
+        }
+    }
+}

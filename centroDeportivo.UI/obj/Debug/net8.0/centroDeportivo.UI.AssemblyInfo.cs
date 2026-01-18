@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("centroDeportivo.UI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ecb5140c2fa32634e299241fbce8876e9a6d80d2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6acd2c1aba695ea217ff8f0d3bd0bc1689c49ff9")]
 [assembly: System.Reflection.AssemblyProductAttribute("centroDeportivo.UI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("centroDeportivo.UI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

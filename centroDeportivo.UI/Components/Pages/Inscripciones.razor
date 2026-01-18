@@ -132,19 +132,7 @@
             mensaje = null;
             esError = false;
 
-            // 1. Preparamos el objeto Reserva
-            var nuevaReserva = new Reserva
-            {
-                PersonaId = Sesion.UsuarioActual!.Id, // El socio logueado
-                ActividadId = actividad.Id,
-                FechaReserva = DateTime.Now,
-                EstadoAsistencia = Estado.Pendiente
-            };
-
-            // 2. CORRECCIÓN: Pasamos DOS argumentos:
-            //    A) El usuario actor (Sesion.UsuarioActual)
-            //    B) La reserva a guardar
-            ReservarActividadUC.Ejecutar(Sesion.UsuarioActual!, nuevaReserva);
+            ReservarActividadUC.Ejecutar(Sesion.UsuarioActual!, actividad.Id);
 
             mensaje = $"¡Genial! Te inscribiste a {actividad.Nombre}.";
             StateHasChanged();
@@ -152,7 +140,8 @@
         catch (Exception ex)
         {
             esError = true;
-            mensaje = "No se pudo realizar la inscripción: " + ex.Message;
+            // Aquí se mostrarán los errores del UseCase: "Ya estás inscripto", "No hay cupo", etc.
+            mensaje = ex.Message; 
         }
     }
 }

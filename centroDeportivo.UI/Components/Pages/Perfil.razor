@@ -16,7 +16,7 @@
         <div class="col-md-6">
             <div class="card shadow">
                 <div class="card-header bg-info text-white">
-                    <h3 class="mb-0">Mis Datos Personales</h3>
+                    <h3 class="mb-0"><i class="bi bi-person-circle"></i> Mis Datos Personales</h3>
                 </div>
                 <div class="card-body">
                     @if (Sesion.UsuarioActual == null)
@@ -40,14 +40,29 @@
                                 <ValidationMessage For="@(() => usuarioEditado.Apellido)" class="text-danger" />
                             </div>
 
+                            <hr />
+                            <h5 class="text-muted mb-3">Seguridad</h5>
+
                             <div class="mb-3">
-                                <label class="form-label">Nueva Contraseña (dejar en blanco para no cambiar)</label>
+                                <label class="form-label">Nueva Contraseña (opcional)</label>
                                 <InputText @bind-Value="nuevaPassword" type="password" class="form-control" placeholder="********" />
                             </div>
 
+                            @* --- AGREGADO: Confirmación de Clave --- *@
+                            @if (!string.IsNullOrEmpty(nuevaPassword))
+                            {
+                                <div class="mb-3">
+                                    <label class="form-label">Repetir Nueva Contraseña</label>
+                                    <InputText @bind-Value="confirmarPassword" type="password" class="form-control" placeholder="********" />
+                                </div>
+                            }
+
                             @if (!string.IsNullOrEmpty(mensaje))
                             {
-                                <div class="alert @(esError ? "alert-danger" : "alert-success")">@mensaje</div>
+                                <div class="alert @(esError ? "alert-danger" : "alert-success")">
+                                    @if(esError) { <i class="bi bi-exclamation-triangle-fill"></i> } else { <i class="bi bi-check-circle-fill"></i> }
+                                    @mensaje
+                                </div>
                             }
 
                             <div class="d-grid gap-2 mt-4">
@@ -65,6 +80,10 @@
 @code {
     private Usuario usuarioEditado = new();
     private string nuevaPassword = "";
+    
+    // Nueva variable para confirmar
+    private string confirmarPassword = ""; 
+    
     private string? mensaje;
     private bool esError = false;
 
@@ -72,12 +91,13 @@
     {
         if (Sesion.UsuarioActual != null)
         {
-            // Clonamos los datos para no modificar la sesión directamente hasta confirmar
+            // Clonamos los datos
             usuarioEditado.Id = Sesion.UsuarioActual.Id;
             usuarioEditado.Nombre = Sesion.UsuarioActual.Nombre;
             usuarioEditado.Apellido = Sesion.UsuarioActual.Apellido;
             usuarioEditado.Mail = Sesion.UsuarioActual.Mail;
             usuarioEditado.Password = Sesion.UsuarioActual.Password;
+            // Ojo: Copiamos la referencia de la lista, pero para perfil está bien
             usuarioEditado.ListaPermisos = Sesion.UsuarioActual.ListaPermisos;
         }
         else
@@ -86,32 +106,42 @@
         }
     }
 
-private void GuardarCambios()
-{
-    try
+    private void GuardarCambios()
     {
-        bool seCambioPass = false;
-        if (!string.IsNullOrWhiteSpace(nuevaPassword))
+        try
         {
-            usuarioEditado.Password = HashService.CalcularHash(nuevaPassword);
-            seCambioPass = true;
+            // 1. Validar que las contraseñas coincidan
+            if (!string.IsNullOrWhiteSpace(nuevaPassword))
+            {
+                if (nuevaPassword != confirmarPassword)
+                {
+                    mensaje = "Las contraseñas no coinciden.";
+                    esError = true;
+                    return;
+                }
+                
+                // Si coinciden, hasheamos y asignamos
+                usuarioEditado.Password = HashService.CalcularHash(nuevaPassword);
+            }
+
+            // 2. Guardar en DB
+            // Pasamos 'false' porque ya la hasheamos nosotros arriba (o dejamos la vieja hasheada)
+            ModificarUsuarioUC.Ejecutar(Sesion.UsuarioActual!, usuarioEditado, false);
+            
+            // 3. Actualizar Sesión Local
+            Sesion.IniciarSesion(usuarioEditado);
+            
+            mensaje = "Datos actualizados correctamente.";
+            nuevaPassword = "";
+            confirmarPassword = ""; // Limpiamos
+            esError = false;
         }
-
-        // Usamos el usuario de la sesión como 'ejecutante'
-        // y el 'usuarioEditado' como el objeto con los nuevos datos
-        ModificarUsuarioUC.Ejecutar(Sesion.UsuarioActual!, usuarioEditado, false);
-        
-        Sesion.IniciarSesion(usuarioEditado);
-        mensaje = "Datos actualizados correctamente.";
-        nuevaPassword = "";
-        esError = false;
+        catch (Exception ex)
+        {
+            mensaje = ex.Message;
+            esError = true;
+        }
     }
-    catch (Exception ex)
-    {
-        mensaje = ex.Message;
-        esError = true;
-    }
-}
 
-    private void Volver() => Nav.NavigateTo("/");
+    private void Volver() => Nav.NavigateTo("/dashboard"); // Mejor volver al dashboard que al home
 }

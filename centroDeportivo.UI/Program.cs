@@ -7,13 +7,15 @@ using centroDeportivo.Aplicacion.Validadores;
 using centroDeportivo.Aplicacion.CasosDeUso.Actividades;
 using centroDeportivo.Aplicacion.interfaces;
 using centroDeportivo.UI.Servicios;
+using centroDeportivo.Aplicacion;
 using centroDeportivo.Aplicacion.CasosDeUso.Reservas;
+using centroDeportivo.Aplicacion.CasosDeUso.Personas;
 
 var builder = WebApplication.CreateBuilder(args);
 
 //Servicio Hash
 builder.Services.AddSingleton<ServicioHash>();
-// Registrar el DbContext de Entity Framework
+
 builder.Services.AddDbContext<CentroDeportivoContext>();
 // --- REPOSITORIOS ---
 builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
@@ -22,10 +24,7 @@ builder.Services.AddScoped<IPersonaRepository, PersonaRepositorioDB>();
 builder.Services.AddScoped<IReservaRepository, ReservaRepositorioDB>();
 
 builder.Services.AddScoped<SesionService>();
-// Agrega aquí tus otros repositorios (IActividadRepositorio, etc.)
 
-// --- SEGURIDAD Y VALIDACIÓN ---
-// CAMBIO: Usa el servicio real, no el provisorio
 builder.Services.AddScoped<IServicioAutorizacion, ServicioAutorizacion>(); 
 builder.Services.AddTransient<ValidacionesUsuario>();
 
@@ -36,22 +35,25 @@ builder.Services.AddTransient<AgregarUsuarioUseCase>();
 builder.Services.AddTransient<ModificarUsuarioUseCase>(); // Necesario para gestionar permisos
 builder.Services.AddTransient<EliminarUsuarioUseCase>();  // Necesario para dar de baja
 
-// --- CASOS DE USO: NEGOCIO (Los de la primera entrega) ---
-// No los olvides, Blazor los necesita para las otras páginas
+// --- CASOS DE USO: Actividad
 builder.Services.AddTransient<AltaActividadUseCase>();
+builder.Services.AddTransient<ModificarActividadUseCase>();
+builder.Services.AddTransient<BajaActividadUseCase>();
 builder.Services.AddTransient<ListarActividadesUseCase>();
-// ... registrar el resto de tus casos de uso existentes
+builder.Services.AddTransient<ListarPersonasUseCase>();
 
+//--- CASOS DE USO: Reserva
 builder.Services.AddTransient<CancelarReservaUseCase>();
 builder.Services.AddTransient<ListarReservasUseCase>();
+builder.Services.AddTransient<ReservarActividadUseCase>();
 
-// Add services to the container.
+
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
@@ -67,6 +69,43 @@ using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<CentroDeportivoContext>();
     context.Database.EnsureCreated();
+
+    // Verificamos si la tabla Personas está vacía
+    if (!context.Personas.Any())
+    {
+        // Creamos docentes usando tus propiedades reales
+        context.Personas.Add(new Docente 
+        { 
+            Nombre = "Lionel", 
+            Apellido = "Messi", 
+            Matricula = "M-1010",           // <--- Corregido
+            AnioIngreso = DateTime.Now.AddYears(-2), // <--- Corregido
+            
+            // Llenamos datos base de Persona para evitar errores
+            NroCarnet = 1001,
+            Mail = "leo@seleccion.com",
+            Direccion = "Miami",
+            Telefono = "555-1010",
+            Facultad = "Fútbol"
+        });
+        
+        context.Personas.Add(new Docente 
+        { 
+            Nombre = "Emiliano", 
+            Apellido = "Martínez", 
+            Matricula = "M-2323", 
+            AnioIngreso = DateTime.Now.AddYears(-1),
+            
+            NroCarnet = 1002,
+            Mail = "dibu@seleccion.com",
+            Direccion = "Birmingham",
+            Telefono = "555-2323",
+            Facultad = "Arqueros"
+        });
+
+        context.SaveChanges(); 
+        Console.WriteLine("¡Profesores de prueba creados exitosamente!");
+    }
 }
 
 app.Run();
