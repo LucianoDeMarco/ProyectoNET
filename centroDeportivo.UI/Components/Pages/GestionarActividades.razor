@@ -71,14 +71,14 @@
                             }
                         </td>
                         <td class="text-end" style="min-width: 200px;">
-                            @* Botón EDITAR: Azul sólido con texto *@
+                            @* Botón EDITAR *@
                             <button class="btn btn-primary btn-sm me-2 shadow-sm" 
                                     @onclick="() => AbrirModalEdicion(act)" 
                                     title="Modificar datos de la actividad">
                                 <i class="bi bi-pencil-square"></i> Editar
                             </button>
 
-                            @* Botón BORRAR: Rojo sólido con texto *@
+                            @* Botón BORRAR*@
                             <button class="btn btn-danger btn-sm shadow-sm" 
                                     @onclick="() => ConfirmarBaja(act)" 
                                     title="Eliminar esta actividad permanentemente">
@@ -144,12 +144,10 @@
     private List<Persona>? listaPersonas;
     private ActividadDeportiva actividadEnEdicion = new();
     
-    // Variables de estado
     private bool mostrarModal = false;
     private bool esEdicion = false;
     private int idDocenteSeleccionado = 0;
     
-    // Mensajes
     private string? mensaje;
     private bool esError = false;
 
@@ -174,8 +172,6 @@
         try
         {
             listaActividades = ListarActividadesUC.Ejecutar();
-            // Cargamos todas las personas para el combo. 
-            // Idealmente filtraríamos solo por Docentes si tuvieras un método específico.
             listaPersonas = ListarPersonasUC.Ejecutar(); 
         }
         catch (Exception ex)
@@ -188,7 +184,7 @@
     private void AbrirModalAlta()
     {
         esEdicion = false;
-        actividadEnEdicion = new ActividadDeportiva(); // Limpiamos
+        actividadEnEdicion = new ActividadDeportiva(); 
         idDocenteSeleccionado = 0;
         mostrarModal = true;
     }
@@ -196,7 +192,6 @@
     private void AbrirModalEdicion(ActividadDeportiva act)
     {
         esEdicion = true;
-        // Clonamos el objeto para no editar la tabla directamente antes de guardar
         actividadEnEdicion = new ActividadDeportiva
         {
             Id = act.Id,
@@ -206,7 +201,6 @@
             Responsable = act.Responsable
         };
         
-        // Seteamos el combo con el ID del responsable actual
         idDocenteSeleccionado = act.Responsable?.Id ?? 0;
         
         mostrarModal = true;
@@ -218,7 +212,6 @@
     {
         try
         {
-            // Asignamos el objeto Responsable según lo seleccionado en el combo
             if (idDocenteSeleccionado > 0)
             {
                 var docente = listaPersonas?.FirstOrDefault(p => p.Id == idDocenteSeleccionado);
@@ -242,20 +235,17 @@
 
             esError = false;
             mostrarModal = false;
-            CargarDatos(); // Refrescamos la grilla
+            CargarDatos();
         }
         catch (Exception ex)
         {
             esError = true;
             mensaje = "No se pudo guardar: " + ex.Message;
-            // No cerramos el modal para que corrija
         }
     }
 
     private void ConfirmarBaja(ActividadDeportiva act)
     {
-        // En un caso real, aquí iría un cartel de confirmación JS o Modal
-        // Por simplicidad, eliminamos directo
         try
         {
             BajaActividadUC.Ejecutar(Sesion.UsuarioActual!, act.Id);

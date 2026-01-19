@@ -66,19 +66,16 @@
             mensajeError = null;
             StateHasChanged();
 
-            // Pequeño delay para que se vea el spinner (opcional)
             await Task.Delay(500);
 
             var usuario = LoginUC.Ejecutar(email, password);
             
-            // Si llegamos acá es porque no hubo excepción
             Sesion.IniciarSesion(usuario);
             await Task.Delay(100);
             Nav.NavigateTo("/dashboard");
         }
         catch (Exception ex)
         {
-            // Aquí capturamos el "Mail no registrado" o "Pass incorrecta"
             mensajeError = ex.Message;
         }
         finally

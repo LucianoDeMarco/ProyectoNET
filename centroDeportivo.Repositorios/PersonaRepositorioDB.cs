@@ -25,7 +25,6 @@ public class PersonaRepositorioDB : IPersonaRepository
 
     public Persona? ObtenerPorDni(int dni)
     {
-        // En EF usamos FirstOrDefault directamente sobre el DbSet
         return _context.Personas.FirstOrDefault(p => p.NroCarnet == dni);
     }
 

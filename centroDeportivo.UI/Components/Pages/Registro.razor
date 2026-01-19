@@ -26,13 +26,10 @@
                         </div>
                     }
 
-                    @* Usamos un formulario estándar de HTML con @onsubmit *@
-                    @* Esto evita que el validador automático de Blazor choque con la password hasheada *@
                     <form @onsubmit="Registrar">
                         
                         <div class="mb-3">
                             <label class="form-label">Nombre</label>
-                            @* Usamos InputText pero dentro de un formulario manual *@
                             <InputText @bind-Value="nuevoUsuario.Nombre" class="form-control" placeholder="Ej: Juan" />
                         </div>
 
@@ -48,14 +45,12 @@
 
                         <div class="mb-3">
                             <label class="form-label">Contraseña</label>
-                            @* Vinculamos a la variable local. Sin oninput para evitar errores de renderizado *@
                             <InputText @bind-Value="passwordPlana" 
                                        type="password" 
                                        class="form-control" 
                                        placeholder="Mínimo 4 caracteres" />
                         </div>
 
-                        @* Mostramos el mensajeError que manejas en el C# *@
                         @if (!string.IsNullOrEmpty(mensajeError))
                         {
                             <div class="alert alert-danger shadow-sm mt-3">
@@ -77,12 +72,12 @@
 @code {
     private Usuario nuevoUsuario = new Usuario();
     private string? mensajeError;
-    private bool registroExitoso = false; // Nueva variable para mostrar el cartel verde
+    private bool registroExitoso = false; 
     private string passwordPlana = string.Empty;
 
     private async Task Registrar()
 {
-    mensajeError = null; // Limpiar error al empezar
+    mensajeError = null; 
 
     // 1. VALIDACIÓN MANUAL 
     if (string.IsNullOrWhiteSpace(passwordPlana) || passwordPlana.Length < 4)

@@ -57,9 +57,6 @@
                     {
                         <tr>
                             <td>
-                                @* Aquí idealmente mostrarías el nombre de la actividad. 
-                                   Si tu objeto Reserva solo tiene el ID, necesitaríamos buscar el nombre 
-                                   o que el UseCase traiga la Actividad completa (.Include) *@
                                 <span class="fw-bold text-primary">Actividad #@res.ActividadId</span>
                             </td>
                             <td>@res.FechaReserva.ToShortDateString()</td>
@@ -104,8 +101,7 @@
     {
         try
         {
-            // Nota: Este UseCase debería traer TODAS, así que filtramos aquí 
-            // o mejor aún, el UseCase debería tener un método 'Ejecutar(usuarioId)'
+
             var todas = ListarReservasUC.Ejecutar();
             misReservas = todas.Where(r => r.PersonaId == Sesion.UsuarioActual!.Id).ToList();
         }
@@ -120,12 +116,11 @@
     {
         try
         {
-            // Enviamos el usuario actual para validar permisos (si aplica) y la reserva
             CancelarReservaUC.Ejecutar(Sesion.UsuarioActual!, reserva.Id);
             
             mensaje = "Reserva cancelada correctamente.";
             esError = false;
-            CargarReservas(); // Refrescamos la lista
+            CargarReservas(); 
         }
         catch (Exception ex)
         {

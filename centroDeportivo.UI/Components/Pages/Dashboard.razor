@@ -28,7 +28,6 @@
                     </div>
                 </div>
             </div>
-            @* Tus tarjetas de Mis Reservas, Gestión de Usuarios, etc. *@
             <div class="col-md-4">
                 <div class="card h-100 shadow-sm border-primary">
                     <div class="card-body text-center">
@@ -39,7 +38,6 @@
                     </div>
                 </div>
             </div>
-            @* ... resto de tus tarjetas ... *@
             @* TARJETAS DE ADMINISTRACIÓN: Solo se ven si tiene el permiso *@
             @if (Sesion.UsuarioActual?.ListaPermisos.Contains(Permiso.UsuarioLectura) ?? false)
             {
@@ -91,7 +89,6 @@ else
     {
         if (firstRender)
         {
-            // Esperamos un milisegundo para que el circuito de Blazor se estabilice
             await Task.Delay(100);
             
             if (!Sesion.EstaLogueado)

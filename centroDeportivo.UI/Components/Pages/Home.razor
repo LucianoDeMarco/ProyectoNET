@@ -47,7 +47,6 @@
 
     protected override void OnInitialized()
     {
-        // Verificamos si no hay usuarios en la DB para destacar el registro del Admin
         var usuarios = ListarUsuariosUC.Ejecutar();
         EsPrimerUsuario = (usuarios.Count == 0);
     }

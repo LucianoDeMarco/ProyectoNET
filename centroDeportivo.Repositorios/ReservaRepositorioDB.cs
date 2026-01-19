@@ -47,7 +47,6 @@ public class ReservaRepositorioDB : IReservaRepository
 
     public bool ExisteInscripcion(int personaId, int actividadId)
     {
-        // Consultamos directamente en la DB si existe la reserva activa
         return _context.Reservas.Any(r =>
             r.PersonaId == personaId &&
             r.ActividadId == actividadId &&

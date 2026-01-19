@@ -16,17 +16,17 @@ public class AgregarUsuarioUseCase
 
     public void Ejecutar(Usuario nuevoUsuario)
     {
-        // 1. Validar datos básicos
+        // 1. Validacion
         _validador.Validar(nuevoUsuario);
 
-        // 2. Lógica de primer usuario (Admin)
+        // 2. Lógica de admin
         var todos = _repo.ListarUsuarios();
         if (todos.Count == 0)
         {
             nuevoUsuario.ListaPermisos = Enum.GetValues<Permiso>().ToList();
         } else
         {
-            // Usuarios normales: Solo lectura
+            // Usuarios de solo lectura
             nuevoUsuario.ListaPermisos = new List<Permiso>
             {
                 Permiso.ActividadLectura,

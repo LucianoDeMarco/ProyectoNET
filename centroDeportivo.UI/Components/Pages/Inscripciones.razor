@@ -1,12 +1,10 @@
 ﻿@page "/inscripciones"
 @rendermode InteractiveServer
-@* --- AGREGÁ ESTOS USINGS --- *@
 @using centroDeportivo.Aplicacion
 @using centroDeportivo.Aplicacion.CasosDeUso.Actividades
 @using centroDeportivo.Aplicacion.CasosDeUso.Reservas
 @using centroDeportivo.Aplicacion.CasosDeUso
 @using centroDeportivo.UI.Servicios
-@* --------------------------- *@
 @inject ListarActividadesUseCase ListarActividadesUC
 @inject ReservarActividadUseCase ReservarActividadUC
 @inject SesionService Sesion
@@ -74,7 +72,7 @@
                                 <span class="badge bg-light text-dark border">@act.CupoMaximo personas</span>
                             </div>
                             
-                            @* Barra decorativa (ya que aún no contamos inscriptos reales) *@
+                            @* Barra decorativa  *@
                             <div class="progress" style="height: 6px;">
                                 <div class="progress-bar bg-primary" role="progressbar" style="width: 25%"></div>
                             </div>

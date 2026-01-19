@@ -5,7 +5,6 @@ public class ServicioAutorizacion : IServicioAutorizacion
 {
     public bool PoseePermiso(Usuario usuario, Permiso permisoRequerido)
     {
-        // 1. Si el usuario es nulo, no tiene permisos
         if (usuario == null) return false;
 
         // 2. Si tiene el permiso de "Administrador", puede hacer TODO

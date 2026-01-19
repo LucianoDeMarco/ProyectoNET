@@ -12,10 +12,9 @@ public class CentroDeportivoContext : DbContext
     public DbSet<ActividadDeportiva> Actividades { get; set; } = null!;
     public DbSet<Persona> Personas { get; set; } = null!;
 
-    public DbSet<Estudiante> Estudiante { get; set; } = null!; // Agrega las clases concretas
+    public DbSet<Estudiante> Estudiante { get; set; } = null!; 
     public DbSet<Docente> Docente { get; set; } = null!;
     public DbSet<Reserva> Reservas { get; set; } = null!;
-    // Agrega aquí el resto de tus entidades...
 
     public CentroDeportivoContext() {}
 
@@ -33,7 +32,6 @@ public class CentroDeportivoContext : DbContext
     // 3. Las Reglas de Mapeo
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // Mapeo especial para la lista de permisos (Convertidor de Valor)
         modelBuilder.Entity<Usuario>()
             .Property(u => u.ListaPermisos)
             .HasConversion(

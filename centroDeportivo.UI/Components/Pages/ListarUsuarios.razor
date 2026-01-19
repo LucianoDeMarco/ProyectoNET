@@ -47,7 +47,6 @@
                     <th>Email</th>
                     <th>ID Socio</th>
                     
-                    @* OJO: La columna "Acciones" solo se dibuja si sos Admin *@
                     @if (esAdmin) 
                     { 
                         <th class="text-center">Acciones</th> 
@@ -67,7 +66,6 @@
                         @if (esAdmin)
                         {
                            <td class="text-center">
-                                @* No te podés resetear a vos mismo *@
                                 @if(user.Id != Sesion.UsuarioActual?.Id)
                                 {
                                     <button class="btn btn-warning btn-sm" @onclick="() => AbrirModalReset(user)">
@@ -119,27 +117,23 @@
     private string nuevaPass = "";
     private string? errorModal;
     
-    // Variable clave para controlar qué se ve
     private bool esAdmin = false; 
 
     protected override void OnInitialized()
     {
-        // 1. Si no hay nadie, al login
         if (!Sesion.EstaLogueado) 
         { 
             Nav.NavigateTo("/login"); 
             return; 
         }
 
-        // 2. SEGURIDAD: Ahora permitimos entrar con "UsuarioLectura"
-        // Antes pedíamos "UsuarioModificacion" y por eso rebotaba.
+
         if (!Sesion.UsuarioActual!.ListaPermisos.Contains(Permiso.UsuarioLectura))
         {
             Nav.NavigateTo("/dashboard");
             return;
         }
 
-        // 3. Chequeamos si tiene "Superpoderes" para activar los botones
         esAdmin = Sesion.UsuarioActual.ListaPermisos.Contains(Permiso.UsuarioModificacion);
 
         CargarUsuarios();
@@ -169,7 +163,6 @@
         if (usuarioAEditar != null)
         {
             usuarioAEditar.Password = nuevaPass;
-            // IMPORTANTE: El 'true' final indica que hay que hashear la clave
             ModificarUsuarioUC.Ejecutar(Sesion.UsuarioActual!, usuarioAEditar, true);
             usuarioAEditar = null;
         }

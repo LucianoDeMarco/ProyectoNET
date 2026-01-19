@@ -48,7 +48,7 @@
                                 <InputText @bind-Value="nuevaPassword" type="password" class="form-control" placeholder="********" />
                             </div>
 
-                            @* --- AGREGADO: Confirmación de Clave --- *@
+                            @* --- Confirmación de Clave --- *@
                             @if (!string.IsNullOrEmpty(nuevaPassword))
                             {
                                 <div class="mb-3">
@@ -81,7 +81,6 @@
     private Usuario usuarioEditado = new();
     private string nuevaPassword = "";
     
-    // Nueva variable para confirmar
     private string confirmarPassword = ""; 
     
     private string? mensaje;
@@ -91,13 +90,11 @@
     {
         if (Sesion.UsuarioActual != null)
         {
-            // Clonamos los datos
             usuarioEditado.Id = Sesion.UsuarioActual.Id;
             usuarioEditado.Nombre = Sesion.UsuarioActual.Nombre;
             usuarioEditado.Apellido = Sesion.UsuarioActual.Apellido;
             usuarioEditado.Mail = Sesion.UsuarioActual.Mail;
             usuarioEditado.Password = Sesion.UsuarioActual.Password;
-            // Ojo: Copiamos la referencia de la lista, pero para perfil está bien
             usuarioEditado.ListaPermisos = Sesion.UsuarioActual.ListaPermisos;
         }
         else
@@ -125,7 +122,6 @@
             }
 
             // 2. Guardar en DB
-            // Pasamos 'false' porque ya la hasheamos nosotros arriba (o dejamos la vieja hasheada)
             ModificarUsuarioUC.Ejecutar(Sesion.UsuarioActual!, usuarioEditado, false);
             
             // 3. Actualizar Sesión Local
@@ -133,7 +129,7 @@
             
             mensaje = "Datos actualizados correctamente.";
             nuevaPassword = "";
-            confirmarPassword = ""; // Limpiamos
+            confirmarPassword = ""; 
             esError = false;
         }
         catch (Exception ex)
@@ -143,5 +139,5 @@
         }
     }
 
-    private void Volver() => Nav.NavigateTo("/dashboard"); // Mejor volver al dashboard que al home
+    private void Volver() => Nav.NavigateTo("/dashboard"); 
 }

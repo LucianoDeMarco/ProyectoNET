@@ -6,15 +6,11 @@ namespace centroDeportivo.Repositorios;
 
 public class ActividadRepositorioDB : IActividadRepository
 {
-    // Eliminamos el constructor y variable privada para usar el patrón "using"
-    // igual que en tu UsuarioRepositorio, para evitar problemas de configuración.
 
     public List<ActividadDeportiva> ObtenerTodas()
     {
         using var db = new CentroDeportivoContext();
         
-        // CORREGIDO: Agregamos .Include para traer los datos del Responsable (Profe)
-        // Sin esto, act.Responsable sería null en la pantalla.
         return db.Actividades
                  .Include(a => a.Responsable) 
                  .ToList();
@@ -25,7 +21,7 @@ public class ActividadRepositorioDB : IActividadRepository
         using var db = new CentroDeportivoContext();
         
         return db.Actividades
-                 .Include(a => a.Responsable) // También aquí por si se usa en detalle
+                 .Include(a => a.Responsable) 
                  .FirstOrDefault(a => a.Id == id);
     }
 
@@ -33,7 +29,6 @@ public class ActividadRepositorioDB : IActividadRepository
     {
         using var db = new CentroDeportivoContext();
         
-        // Si el Responsable ya existe en la DB, evitamos que intente crearlo de nuevo
         if (actividad.Responsable != null)
         {
             db.Entry(actividad.Responsable).State = EntityState.Unchanged;
