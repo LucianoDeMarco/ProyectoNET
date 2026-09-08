@@ -1,0 +1,22 @@
+# Build results
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Base de datos SQLite generada en tiempo de ejecución
+*.db
+*.db-shm
+*.db-wal
+
+# Logs
+*.log
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
